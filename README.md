@@ -1,6 +1,8 @@
 <div align="center">
-
-# 📊 GitHub Repo Stats — Ulanzi Deck Plugin
+<p align="center">
+  <img src="com.github.repostats.ulanziPlugin/assets/marketing/Banner.jpeg" alt="GitHub RepoStats Deck Plugin" width="100%">
+  <img src="com.github.repostats.ulanziPlugin/assets/marketing/brand.png" alt="GitHub RepoStats Deck Plugin" width="20%">
+</p>
 
 **Live GitHub monitors on your Ulanzi Deck — seven actions, one plugin.**
 
@@ -21,13 +23,13 @@ Each action is a separate key with its own icon. The key shows **one metric at a
 
 | Action | What it shows | Cycle (press the key) |
 |--------|---------------|-----------------------|
-| ⭐ **Repo Stats** | Any public repo | stars → forks → issues → watchers |
-| 🏷️ **Latest Release** | Newest release | version → downloads → published |
-| 🔀 **Commit Activity** | Last 7 days | commits → last author → last time |
-| ✅ **CI / Actions** | Latest workflow run | status (✓/✗/running) → last run |
-| 🟢 **Issues & PRs** | Open counts | issues → pull requests |
-| 👤 **User / Org** | Any profile | followers → repos → gists → following |
-| ⚡ **API Rate Limit** | Your API quota | remaining → reset countdown |
+| <img src="com.github.repostats.ulanziPlugin/assets/icons/action-repo.svg" alt="GitHub RepoStats Deck Plugin" width="8%"> **Repo Stats** | Any public repo | stars → forks → issues → watchers |
+| <img src="com.github.repostats.ulanziPlugin/assets/icons/action-release.svg" alt="GitHub RepoStats Deck Plugin" width="8%"> **Latest Release** | Newest release | version → downloads → published |
+| <img src="com.github.repostats.ulanziPlugin/assets/icons/action-commits.svg" alt="GitHub RepoStats Deck Plugin" width="8%"> **Commit Activity** | Last 7 days | commits → last author → last time |
+| <img src="com.github.repostats.ulanziPlugin/assets/icons/action-ci.svg" alt="GitHub RepoStats Deck Plugin" width="8%"> **CI / Actions** | Latest workflow run | status (✓/✗/running) → last run |
+| <img src="com.github.repostats.ulanziPlugin/assets/icons/action-issues.svg" alt="GitHub RepoStats Deck Plugin" width="8%"> **Issues & PRs** | Open counts | issues → pull requests |
+| <img src="com.github.repostats.ulanziPlugin/assets/icons/action-user.svg" alt="GitHub RepoStats Deck Plugin" width="8%"> **User / Org** | Any profile | followers → repos → gists → following |
+| <img src="com.github.repostats.ulanziPlugin/assets/icons/action-rate.svg" alt="GitHub RepoStats Deck Plugin" width="8%"> **API Rate Limit** | Your API quota | remaining → reset countdown |
 
 ---
 
@@ -98,9 +100,3 @@ com.github.repostats.ulanziPlugin/
 
 MIT © Jean Almeida — see [`LICENSE`](com.github.repostats.ulanziPlugin/LICENSE).
 Third-party notices in [`THIRD-PARTY-LICENSES.md`](com.github.repostats.ulanziPlugin/THIRD-PARTY-LICENSES.md).
-
-<div align="center">
-
-**[LinkedIn](https://www.linkedin.com/in/jeanc-almeida/) · [GitHub](https://github.com/JEAN-ALMEIDA-CZO) · [Portfolio](https://portifolio.athos.app.br/)**
-
-</div>
