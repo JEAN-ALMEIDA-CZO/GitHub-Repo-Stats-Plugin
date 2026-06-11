@@ -1,0 +1,91 @@
+{
+  "Name": "GitHub Stats",
+  "Description": "Live stars, forks, and issues on your key.",
+  "Actions": [
+    {
+      "Name": "Repository Stats",
+      "Tooltip": "Stars, forks, issues, and watchers"
+    },
+    {
+      "Name": "Latest Release",
+      "Tooltip": "Most recent release and downloads"
+    },
+    {
+      "Name": "Commit Activity",
+      "Tooltip": "Recent commits"
+    },
+    {
+      "Name": "CI / Actions",
+      "Tooltip": "Latest workflow status"
+    },
+    {
+      "Name": "Issues and Pull Requests",
+      "Tooltip": "Open issues and pull requests"
+    },
+    {
+      "Name": "User / Organization",
+      "Tooltip": "Profile: followers, repositories"
+    },
+    {
+      "Name": "API Limit",
+      "Tooltip": "Your GitHub API quota"
+    }
+  ],
+  "Localization": {
+    "repository": "REPOSITORY",
+    "repo": "Repository",
+    "metric": "Metric",
+    "stars": "Stars",
+    "forks": "Forks",
+    "issues": "Issues",
+    "watchers": "Watchers",
+    "token": "Access Token",
+    "tokenHint": "Optional — a token increases the request limit and allows private repositories.",
+    "refresh": "REFRESH",
+    "interval": "Every",
+    "minutes": "minutes",
+    "refreshNow": "Refresh now",
+    "tipPressKey": "Press key to toggle metric.",
+    "screen": "SCREEN",
+    "scrClassic": "Classic",
+    "scrChart": "Chart",
+    "scrMinimal": "Minimal",
+    "theme": "THEME",
+    "font": "Font",
+    "animated": "Animated",
+    "animatedHint": "Smooth moving glow",
+    "tutorial": "Tutorial",
+    "loading": "Loading…",
+    "updated": "Updated",
+    "pushed": "Pushed",
+    "offline": "Offline",
+    "notFound": "Repository not found",
+    "rateLimit": "Limit reached — use a token",
+    "account": "ACCOUNT",
+    "auth": "AUTHENTICATION",
+    "user": "User",
+    "prs": "Pull Requests",
+    "downloads": "Downloads",
+    "published": "Published",
+    "noRelease": "No release",
+    "commitsWeek": "Commits / 7d",
+    "by": "by",
+    "noCommits": "No commits",
+    "success": "Success",
+    "failed": "Failed",
+    "running": "Running",
+    "pending": "Pending",
+    "noRuns": "No runs",
+    "run": "Run",
+    "followers": "Followers",
+    "repos": "Repositories",
+    "gists": "Gists",
+    "following": "Following",
+    "remaining": "Remaining",
+    "resets": "Resets",
+    "version": "Version",
+    "author": "Author",
+    "status": "Status",
+    "genToken": "Generate token →"
+  }
+}

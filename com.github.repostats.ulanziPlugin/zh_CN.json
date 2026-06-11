@@ -1,0 +1,91 @@
+{
+  "Name": "GitHub 统计",
+  "Description": "按键上的即时星号、分叉和问题。",
+  "Actions": [
+    {
+      "Name": "仓库统计",
+      "Tooltip": "星号、分叉、问题和观察者"
+    },
+    {
+      "Name": "最新发布",
+      "Tooltip": "最新发布版本和下载"
+    },
+    {
+      "Name": "提交活动",
+      "Tooltip": "最近的提交"
+    },
+    {
+      "Name": "CI / 动作",
+      "Tooltip": "最新工作流程状态"
+    },
+    {
+      "Name": "问题与拉取请求",
+      "Tooltip": "开启的问题和拉取请求"
+    },
+    {
+      "Name": "用户 / 组织",
+      "Tooltip": "个人资料：粉丝、仓库"
+    },
+    {
+      "Name": "API 限制",
+      "Tooltip": "您的 GitHub API 配额"
+    }
+  ],
+  "Localization": {
+    "repository": "仓库",
+    "repo": "仓库",
+    "metric": "指标",
+    "stars": "星号",
+    "forks": "分叉",
+    "issues": "问题",
+    "watchers": "观察者",
+    "token": "访问令牌",
+    "tokenHint": "选填 — 令牌可增加请求限制并允许访问私人仓库。",
+    "refresh": "更新",
+    "interval": "每",
+    "minutes": "分钟",
+    "refreshNow": "立即更新",
+    "tipPressKey": "按下按键切换指标。",
+    "screen": "屏幕",
+    "scrClassic": "经典",
+    "scrChart": "图表",
+    "scrMinimal": "极简",
+    "theme": "主题",
+    "font": "字体",
+    "animated": "动画",
+    "animatedHint": "移动的柔和光晕",
+    "tutorial": "教程",
+    "loading": "加载中…",
+    "updated": "已更新",
+    "pushed": "已推送",
+    "offline": "离线",
+    "notFound": "找不到仓库",
+    "rateLimit": "达到限制 — 请使用令牌",
+    "account": "账号",
+    "auth": "身份验证",
+    "user": "用户",
+    "prs": "拉取请求",
+    "downloads": "下载",
+    "published": "已发布",
+    "noRelease": "无发布",
+    "commitsWeek": "提交 / 7天",
+    "by": "来自",
+    "noCommits": "无提交",
+    "success": "成功",
+    "failed": "失败",
+    "running": "运行中",
+    "pending": "待处理",
+    "noRuns": "无运行记录",
+    "run": "运行",
+    "followers": "粉丝",
+    "repos": "仓库",
+    "gists": "笔记",
+    "following": "关注中",
+    "remaining": "剩余",
+    "resets": "重置",
+    "version": "版本",
+    "author": "作者",
+    "status": "状态",
+    "genToken": "生成令牌 →"
+  }
+}

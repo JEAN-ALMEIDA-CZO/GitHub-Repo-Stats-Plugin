@@ -1,0 +1,91 @@
+{
+  "Name": "Statistiche GitHub",
+  "Description": "Stelle, fork e issue in tempo reale sul tuo tasto.",
+  "Actions": [
+    {
+      "Name": "Statistiche Repository",
+      "Tooltip": "Stelle, fork, issue e watcher"
+    },
+    {
+      "Name": "Ultima Release",
+      "Tooltip": "Release più recente e download"
+    },
+    {
+      "Name": "Attività dei Commit",
+      "Tooltip": "Commit recenti"
+    },
+    {
+      "Name": "CI / Actions",
+      "Tooltip": "Stato dell'ultimo workflow"
+    },
+    {
+      "Name": "Issue e Pull Request",
+      "Tooltip": "Issue e pull request aperte"
+    },
+    {
+      "Name": "Utente / Organizzazione",
+      "Tooltip": "Profilo: follower, repository"
+    },
+    {
+      "Name": "Limite API",
+      "Tooltip": "La tua quota API di GitHub"
+    }
+  ],
+  "Localization": {
+    "repository": "REPOSITORY",
+    "repo": "Repository",
+    "metric": "Metrica",
+    "stars": "Stelle",
+    "forks": "Fork",
+    "issues": "Issue",
+    "watchers": "Watcher",
+    "token": "Token di Accesso",
+    "tokenHint": "Opzionale — un token aumenta il limite di richieste e consente repository privati.",
+    "refresh": "AGGIORNA",
+    "interval": "Ogni",
+    "minutes": "minuti",
+    "refreshNow": "Aggiorna ora",
+    "tipPressKey": "Premi il tasto per cambiare metrica.",
+    "screen": "SCHERMO",
+    "scrClassic": "Classico",
+    "scrChart": "Grafico",
+    "scrMinimal": "Minimale",
+    "theme": "TEMA",
+    "font": "Font",
+    "animated": "Animato",
+    "animatedHint": "Bagliore morbido in movimento",
+    "tutorial": "Tutorial",
+    "loading": "Caricamento…",
+    "updated": "Aggiornato",
+    "pushed": "Inviato",
+    "offline": "Offline",
+    "notFound": "Repository non trovato",
+    "rateLimit": "Limite raggiunto — usa un token",
+    "account": "ACCOUNT",
+    "auth": "AUTENTICAZIONE",
+    "user": "Utente",
+    "prs": "Pull Request",
+    "downloads": "Download",
+    "published": "Pubblicato",
+    "noRelease": "Nessuna release",
+    "commitsWeek": "Commit / 7g",
+    "by": "da",
+    "noCommits": "Nessun commit",
+    "success": "Successo",
+    "failed": "Fallito",
+    "running": "In esecuzione",
+    "pending": "In sospeso",
+    "noRuns": "Nessuna esecuzione",
+    "run": "Esecuzione",
+    "followers": "Follower",
+    "repos": "Repository",
+    "gists": "Note",
+    "following": "Seguiti",
+    "remaining": "Rimanenti",
+    "resets": "Ripristina",
+    "version": "Versione",
+    "author": "Autore",
+    "status": "Stato",
+    "genToken": "Genera token →"
+  }
+}

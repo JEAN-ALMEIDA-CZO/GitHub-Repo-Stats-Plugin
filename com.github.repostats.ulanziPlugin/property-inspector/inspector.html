@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+  <title>GitHub Repo Stats</title>
+  <link rel="stylesheet" href="../libs/css/udpi.css">
+  <style>
+    :root{ --accent:#58a6ff; --accent-soft:rgba(88,166,255,.14); --line:rgba(255,255,255,.07); --label:#8b95a3; --field-bg:#11161d; --field-border:#2a323d; }
+    body{ padding-bottom:18px; }
+    .section{ margin:0; padding:14px 0 6px; border-top:1px solid var(--line); }
+    .section:first-of-type{ border-top:none; padding-top:6px; }
+    .section.hidden, .row.hidden{ display:none; }
+    .section-title{ font-size:8pt; font-weight:700; letter-spacing:1.6px; text-transform:uppercase; color:var(--label); padding:0 18px 8px; }
+    input:focus, select:focus{ border-color:var(--accent)!important; outline:none; box-shadow:0 0 0 3px var(--accent-soft); }
+    .row{ display:flex; align-items:center; min-height:36px; padding:3px 18px; }
+    .row .label{ flex:0 0 92px; text-align:left; padding-right:10px; font-size:9pt; color:#cdd4dd; }
+    .row .control{ flex:1; display:flex; align-items:center; gap:8px; }
+    select, input[type="text"], input[type="password"], input[type="number"]{ width:100%; background:var(--field-bg); border:1px solid var(--field-border); color:#e8edf2; border-radius:7px; padding:7px 9px; font-size:9pt; }
+    .preview-wrap{ display:flex; justify-content:center; padding:10px 0 4px; }
+    .preview{ width:128px; height:128px; border-radius:14px; box-shadow:0 8px 22px rgba(0,0,0,.5),0 0 0 1px var(--line); overflow:hidden; }
+    .preview svg{ width:100%; height:100%; display:block; }
+    .seg{ display:flex; gap:6px; padding:2px 18px 8px; }
+    .seg button{ flex:1; background:var(--field-bg); border:1px solid var(--field-border); color:#aeb6c0; border-radius:7px; padding:8px 4px; font-size:8.5pt; font-weight:600; cursor:pointer; }
+    .seg button.active{ background:var(--accent-soft); border-color:var(--accent); color:var(--accent); }
+    .themes{ display:flex; flex-wrap:wrap; gap:8px; padding:2px 18px 10px; }
+    .theme-swatch{ width:38px; height:26px; border-radius:7px; cursor:pointer; display:flex; overflow:hidden; border:2px solid transparent; }
+    .theme-swatch.active{ border-color:var(--accent); }
+    .theme-swatch i{ flex:1; }
+    .switch{ position:relative; display:inline-flex; align-items:center; cursor:pointer; }
+    .switch input{ position:absolute; opacity:0; width:0; height:0; }
+    .switch .track{ width:42px; height:24px; border-radius:13px; background:#2a323d; transition:.2s; position:relative; }
+    .switch .track::after{ content:""; position:absolute; top:3px; left:3px; width:18px; height:18px; border-radius:50%; background:#fff; transition:.2s; }
+    .switch input:checked + .track{ background:var(--accent); }
+    .switch input:checked + .track::after{ transform:translateX(18px); }
+    .switch-hint{ font-size:8.5pt; color:#7c8794; }
+    .btn-row{ display:flex; gap:10px; padding:8px 18px 2px; }
+    .act-btn{ flex:1; background:var(--field-bg); border:1px solid var(--field-border); color:#d6dde4; border-radius:8px; padding:10px; font-size:9pt; font-weight:600; cursor:pointer; }
+    .act-btn:hover{ border-color:var(--accent); color:var(--accent); }
+    .act-btn.primary{ background:var(--accent-soft); border-color:var(--accent); color:var(--accent); }
+    .tip{ padding:8px 18px 0; color:#5b6470; font-size:8.5pt; text-align:center; }
+    .gen-link{ color:var(--accent); text-decoration:none; font-weight:600; cursor:pointer; }
+    .gen-link:hover{ text-decoration:underline; }
+  </style>
+</head>
+<body>
+  <div class="udpi-wrapper hidden">
+    <form id="property-inspector">
+
+      <div class="preview-wrap"><div class="preview" id="preview"></div></div>
+
+      <!-- REPO TARGET (repo/release/commits/ci/issues) -->
+      <div class="section" id="grp-repo">
+        <div class="section-title" data-localize>repository</div>
+        <div class="row">
+          <div class="label" data-localize>repo</div>
+          <div class="control">
+            <input type="text" id="repo" name="repo" placeholder="owner/repo" value="microsoft/vscode" spellcheck="false" autocapitalize="off">
+          </div>
+        </div>
+        <div class="row" id="grp-metric">
+          <div class="label" data-localize>metric</div>
+          <div class="control">
+            <select id="metric" name="metric">
+              <option value="stars" data-localize>stars</option>
+              <option value="forks" data-localize>forks</option>
+              <option value="issues" data-localize>issues</option>
+              <option value="watchers" data-localize>watchers</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- USER TARGET (user) -->
+      <div class="section hidden" id="grp-user">
+        <div class="section-title" data-localize>account</div>
+        <div class="row">
+          <div class="label" data-localize>user</div>
+          <div class="control">
+            <input type="text" id="user" name="user" placeholder="username / org" value="torvalds" spellcheck="false" autocapitalize="off">
+          </div>
+        </div>
+      </div>
+
+      <!-- AUTH (all) -->
+      <div class="section">
+        <div class="section-title" data-localize>auth</div>
+        <div class="row">
+          <div class="label" data-localize>token</div>
+          <div class="control">
+            <input type="password" id="token" name="token" placeholder="ghp_… (optional)" spellcheck="false" autocapitalize="off">
+          </div>
+        </div>
+        <p class="tip" data-localize>tokenHint</p>
+        <p class="tip"><a href="#" id="gen-token" class="gen-link" data-localize>genToken</a></p>
+      </div>
+
+      <!-- REFRESH (all) -->
+      <div class="section">
+        <div class="section-title" data-localize>refresh</div>
+        <div class="row">
+          <div class="label" data-localize>interval</div>
+          <div class="control">
+            <input type="number" id="intervalMin" name="intervalMin" min="1" max="1440" step="1" value="30">
+            <span class="switch-hint" data-localize>minutes</span>
+          </div>
+        </div>
+        <div class="btn-row"><button type="button" class="act-btn primary" id="btn-refresh" data-localize>refreshNow</button></div>
+        <p class="tip" data-localize>tipPressKey</p>
+      </div>
+
+      <!-- SCREEN (repo only) -->
+      <div class="section" id="grp-screen">
+        <div class="section-title" data-localize>screen</div>
+        <input type="hidden" id="screenMode" name="screenMode" value="0">
+        <div class="seg" id="screen-seg">
+          <button type="button" data-mode="0" data-localize>scrClassic</button>
+          <button type="button" data-mode="1" data-localize>scrChart</button>
+          <button type="button" data-mode="2" data-localize>scrMinimal</button>
+        </div>
+      </div>
+
+      <!-- APPEARANCE (all) -->
+      <div class="section">
+        <div class="section-title" data-localize>theme</div>
+        <input type="hidden" id="theme" name="theme" value="github">
+        <div class="themes" id="theme-swatches"></div>
+        <div class="row">
+          <div class="label" data-localize>font</div>
+          <div class="control">
+            <select id="font" name="font">
+              <option value="sans">Sans</option><option value="mono">Mono</option><option value="serif">Serif</option><option value="display">Display</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="label" data-localize>animated</div>
+          <div class="control">
+            <label class="switch"><input type="checkbox" id="anim" name="anim" value="true"><span class="track"></span></label>
+            <span class="switch-hint" data-localize>animatedHint</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-row"><button type="button" class="act-btn" id="btn-tutorial" data-localize>tutorial</button></div>
+
+    </form>
+  </div>
+
+  <script src="../libs/js/constants.js"></script>
+  <script src="../libs/js/eventEmitter.js"></script>
+  <script src="../libs/js/timers.js"></script>
+  <script src="../libs/js/utils.js"></script>
+  <script src="../libs/js/ulanzideckApi.js"></script>
+  <script src="./inspector.js"></script>
+</body>
+</html>

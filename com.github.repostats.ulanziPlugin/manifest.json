@@ -1,0 +1,84 @@
+{
+  "Author": "Jean Almeida",
+  "Name": "GitHub Repo Stats",
+  "Description": "A suite of GitHub monitors for your Ulanzi Deck. Seven actions: Repo Stats (stars/forks/issues/watchers), Latest Release, Commit Activity, CI / Actions status, Issues & PRs, User/Org profile and API Rate Limit. Each key shows live data with a trend, press to refresh. Optional token for private repos and higher limits. Modern animated UI, color themes, fonts. Full localization.",
+  "Category": "GitHub Repo Stats",
+  "CategoryIcon": "assets/icons/categoryIcon.svg",
+  "Icon": "assets/icons/brand.svg",
+  "Version": "1.0.0",
+  "UUID": "com.github.repostats.deck",
+  "Type": "JavaScript",
+  "CodePath": "plugin/app.js",
+  "PrivateAPI": true,
+  "SupportedInMultiActions": false,
+  "Actions": [
+    {
+      "Name": "Repo Stats",
+      "Icon": "assets/icons/action-repo.svg",
+      "UUID": "com.github.repostats.deck.repo",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "States": [ { "Name": "Default", "Image": "assets/icons/action-repo.svg" } ],
+      "Controllers": ["Keypad"],
+      "SupportedInMultiActions": false
+    },
+    {
+      "Name": "Latest Release",
+      "Icon": "assets/icons/action-release.svg",
+      "UUID": "com.github.repostats.deck.release",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "States": [ { "Name": "Default", "Image": "assets/icons/action-release.svg" } ],
+      "Controllers": ["Keypad"],
+      "SupportedInMultiActions": false
+    },
+    {
+      "Name": "Commit Activity",
+      "Icon": "assets/icons/action-commits.svg",
+      "UUID": "com.github.repostats.deck.commits",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "States": [ { "Name": "Default", "Image": "assets/icons/action-commits.svg" } ],
+      "Controllers": ["Keypad"],
+      "SupportedInMultiActions": false
+    },
+    {
+      "Name": "CI / Actions",
+      "Icon": "assets/icons/action-ci.svg",
+      "UUID": "com.github.repostats.deck.ci",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "States": [ { "Name": "Default", "Image": "assets/icons/action-ci.svg" } ],
+      "Controllers": ["Keypad"],
+      "SupportedInMultiActions": false
+    },
+    {
+      "Name": "Issues & PRs",
+      "Icon": "assets/icons/action-issues.svg",
+      "UUID": "com.github.repostats.deck.issues",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "States": [ { "Name": "Default", "Image": "assets/icons/action-issues.svg" } ],
+      "Controllers": ["Keypad"],
+      "SupportedInMultiActions": false
+    },
+    {
+      "Name": "User / Org",
+      "Icon": "assets/icons/action-user.svg",
+      "UUID": "com.github.repostats.deck.user",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "States": [ { "Name": "Default", "Image": "assets/icons/action-user.svg" } ],
+      "Controllers": ["Keypad"],
+      "SupportedInMultiActions": false
+    },
+    {
+      "Name": "API Rate Limit",
+      "Icon": "assets/icons/action-rate.svg",
+      "UUID": "com.github.repostats.deck.rate",
+      "PropertyInspectorPath": "property-inspector/inspector.html",
+      "States": [ { "Name": "Default", "Image": "assets/icons/action-rate.svg" } ],
+      "Controllers": ["Keypad"],
+      "SupportedInMultiActions": false
+    }
+  ],
+  "OS": [
+    { "Platform": "windows", "MinimumVersion": "10" },
+    { "Platform": "mac",     "MinimumVersion": "10.11" }
+  ],
+  "Software": { "MinVersion": "2.1.0" }
+}

@@ -1,0 +1,91 @@
+{
+  "Name": "GitHub 통계",
+  "Description": "버튼에서 실시간 별, 포크 및 이슈를 확인하세요.",
+  "Actions": [
+    {
+      "Name": "저장소 통계",
+      "Tooltip": "별, 포크, 이슈 및 주시자"
+    },
+    {
+      "Name": "최신 릴리스",
+      "Tooltip": "최신 릴리스 및 다운로드"
+    },
+    {
+      "Name": "커밋 활동",
+      "Tooltip": "최근 커밋"
+    },
+    {
+      "Name": "CI / 액션",
+      "Tooltip": "최신 워크플로우 상태"
+    },
+    {
+      "Name": "이슈 및 풀 리퀘스트",
+      "Tooltip": "열린 이슈 및 풀 리퀘스트"
+    },
+    {
+      "Name": "사용자 / 조직",
+      "Tooltip": "프로필: 팔로워, 저장소"
+    },
+    {
+      "Name": "API 제한",
+      "Tooltip": "GitHub API 할당량"
+    }
+  ],
+  "Localization": {
+    "repository": "저장소",
+    "repo": "저장소",
+    "metric": "지표",
+    "stars": "별",
+    "forks": "포크",
+    "issues": "이슈",
+    "watchers": "주시자",
+    "token": "액세스 토큰",
+    "tokenHint": "선택 사항 — 토큰을 사용하면 요청 한도가 증가하고 비공개 저장소에 액세스할 수 있습니다.",
+    "refresh": "새로고침",
+    "interval": "매",
+    "minutes": "분",
+    "refreshNow": "지금 새로고침",
+    "tipPressKey": "지표를 전환하려면 버튼을 누르세요.",
+    "screen": "화면",
+    "scrClassic": "클래식",
+    "scrChart": "차트",
+    "scrMinimal": "미니멀",
+    "theme": "테마",
+    "font": "글꼴",
+    "animated": "애니메이션",
+    "animatedHint": "부드럽게 움직이는 빛",
+    "tutorial": "튜토리얼",
+    "loading": "로딩 중…",
+    "updated": "업데이트됨",
+    "pushed": "푸시됨",
+    "offline": "오프라인",
+    "notFound": "저장소를 찾을 수 없음",
+    "rateLimit": "한도 도달 — 토큰을 사용하세요",
+    "account": "계정",
+    "auth": "인증",
+    "user": "사용자",
+    "prs": "풀 리퀘스트",
+    "downloads": "다운로드",
+    "published": "게시됨",
+    "noRelease": "릴리스 없음",
+    "commitsWeek": "커밋 / 7일",
+    "by": "작성자:",
+    "noCommits": "커밋 없음",
+    "success": "성공",
+    "failed": "실패",
+    "running": "실행 중",
+    "pending": "대기 중",
+    "noRuns": "실행 기록 없음",
+    "run": "실행",
+    "followers": "팔로워",
+    "repos": "저장소",
+    "gists": "노트",
+    "following": "팔로잉",
+    "remaining": "남음",
+    "resets": "초기화",
+    "version": "버전",
+    "author": "작성자",
+    "status": "상태",
+    "genToken": "토큰 생성 →"
+  }
+}

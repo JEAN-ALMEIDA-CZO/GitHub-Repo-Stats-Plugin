@@ -1,0 +1,91 @@
+{
+  "Name": "Estatísticas do GitHub",
+  "Description": "Estrelas, bifurcações e problemas ao vivo na sua tecla.",
+  "Actions": [
+    {
+      "Name": "Estatísticas do Repositório",
+      "Tooltip": "Estrelas, bifurcações, problemas e observadores"
+    },
+    {
+      "Name": "Último Lançamento",
+      "Tooltip": "Lançamento mais recente e transferências"
+    },
+    {
+      "Name": "Atividade de Envios",
+      "Tooltip": "Envios (commits) recentes"
+    },
+    {
+      "Name": "CI / Ações",
+      "Tooltip": "Estado do último fluxo de trabalho"
+    },
+    {
+      "Name": "Problemas e Solicitações",
+      "Tooltip": "Problemas e solicitações de integração abertas"
+    },
+    {
+      "Name": "Usuário / Organização",
+      "Tooltip": "Perfil: seguidores, repositórios"
+    },
+    {
+      "Name": "Limite da API",
+      "Tooltip": "Sua cota da API do GitHub"
+    }
+  ],
+  "Localization": {
+    "repository": "REPOSITÓRIO",
+    "repo": "Repositório",
+    "metric": "Métrica",
+    "stars": "Estrelas",
+    "forks": "Bifurcações",
+    "issues": "Problemas",
+    "watchers": "Observadores",
+    "token": "Token de Acesso",
+    "tokenHint": "Opcional — um token aumenta o limite de requisições e permite repositórios privados.",
+    "refresh": "ATUALIZAR",
+    "interval": "A cada",
+    "minutes": "minutos",
+    "refreshNow": "Atualizar agora",
+    "tipPressKey": "Pressione a tecla para alternar a métrica.",
+    "screen": "TELA",
+    "scrClassic": "Clássico",
+    "scrChart": "Gráfico",
+    "scrMinimal": "Minimalista",
+    "theme": "TEMA",
+    "font": "Fonte",
+    "animated": "Animado",
+    "animatedHint": "Brilho suave em movimento",
+    "tutorial": "Tutorial",
+    "loading": "Carregando…",
+    "updated": "Atualizado",
+    "pushed": "Enviado",
+    "offline": "Desconectado",
+    "notFound": "Repositório não encontrado",
+    "rateLimit": "Limite atingido — use um token",
+    "account": "CONTA",
+    "auth": "AUTENTICAÇÃO",
+    "user": "Usuário",
+    "prs": "Solicitações",
+    "downloads": "Transferências",
+    "published": "Publicado",
+    "noRelease": "Sem lançamento",
+    "commitsWeek": "Envios / 7d",
+    "by": "por",
+    "noCommits": "Sem envios",
+    "success": "Sucesso",
+    "failed": "Falhou",
+    "running": "Em execução",
+    "pending": "Pendente",
+    "noRuns": "Sem execuções",
+    "run": "Execução",
+    "followers": "Seguidores",
+    "repos": "Repositórios",
+    "gists": "Anotações",
+    "following": "Seguindo",
+    "remaining": "Restante",
+    "resets": "Reinicia",
+    "version": "Versão",
+    "author": "Autor",
+    "status": "Estado",
+    "genToken": "Gerar token →"
+  }
+}

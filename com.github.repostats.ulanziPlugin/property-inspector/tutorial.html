@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GitHub Repo Stats — Tutorial</title>
+<link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg">
+<style>
+  :root{
+    --acc:#58a6ff; --acc2:#a78bfa; --star:#e3b341; --up:#3fb950; --down:#f85149;
+    --bg:#0a0e14; --bg2:#0d1117; --card:#11161d; --line:#21262d;
+    --tx:#e6edf3; --mut:#7d8590; --r:14px;
+    --mono:'SFMono-Regular',ui-monospace,'Cascadia Code',Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--bg);color:var(--tx);
+    font-family:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(900px 500px at 50% -10%,rgba(88,166,255,.12),transparent 60%),radial-gradient(800px 500px at 110% 110%,rgba(167,139,250,.08),transparent 55%);
+    background-attachment:fixed;}
+  .wrap{max-width:860px;margin:0 auto;padding:30px 20px 60px;}
+  .topbar{display:flex;align-items:center;gap:12px;margin-bottom:26px;font-family:var(--mono);font-size:12px;color:var(--mut);border-bottom:1px solid var(--line);padding-bottom:14px;}
+  .live{display:inline-flex;align-items:center;gap:7px;color:var(--acc);font-weight:700;letter-spacing:.14em;}
+  .live i{width:8px;height:8px;border-radius:50%;background:var(--acc);box-shadow:0 0 10px var(--acc);animation:beat 1.6s ease-in-out infinite;}
+  .topbar .path{margin-left:auto;opacity:.65;}
+  h1{font-size:clamp(30px,6vw,42px);line-height:1.05;margin:0;font-weight:800;letter-spacing:-.025em;}
+  h1 .g{background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{color:var(--mut);margin:8px 0 0;font-size:15px;}
+  .lead{font-size:16px;color:#c4d0dd;margin:20px 0 8px;max-width:72ch;}
+  .toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px;}
+  .toc a{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:#c4d0dd;text-decoration:none;background:#0e141b;border:1px solid var(--line);border-radius:9px;padding:7px 12px;transition:all .15s;}
+  .toc a:hover{border-color:var(--acc);transform:translateY(-1px);}
+  .toc a img{width:15px;height:15px;}
+  .sec{margin:28px 0;scroll-margin-top:16px;}
+  .sec.focus .card{border-color:var(--acc);box-shadow:0 0 0 3px rgba(88,166,255,.14);}
+  .kicker{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--acc);font-weight:700;margin-bottom:10px;}
+  .kicker::before{content:"// ";opacity:.55;}
+  h2{font-size:21px;margin:0 0 4px;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:11px;}
+  h2 .ic{width:34px;height:34px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;background:#0d1117;border:1px solid var(--line);flex:0 0 34px;}
+  h2 .ic img{width:21px;height:21px;display:block;}
+  .fdesc{color:var(--mut);font-size:14px;margin:0 0 12px;}
+  .card{position:relative;background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;overflow:hidden;transition:border-color .2s, box-shadow .2s;}
+  .card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--acc),transparent 70%);}
+  ol.steps{counter-reset:s;list-style:none;margin:0;padding:2px 0 0 6px;}
+  ol.steps li{position:relative;padding:5px 0 15px 42px;font-size:14.5px;color:#d4dce5;}
+  ol.steps li:not(:last-child)::after{content:"";position:absolute;left:14px;top:30px;bottom:0;width:2px;background:var(--line);}
+  ol.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:2px;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#04121f;background:radial-gradient(circle at 35% 30%,var(--acc2),var(--acc));box-shadow:0 0 0 4px rgba(88,166,255,.10);}
+  ol.steps b{color:#fff;}
+  .tips{margin-top:6px;border-top:1px dashed var(--line);padding-top:10px;}
+  .tips .tt{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--acc);font-weight:700;}
+  .tips ul{list-style:none;margin:6px 0 0;padding:0;}
+  .tips li{position:relative;padding:4px 0 4px 20px;color:var(--mut);font-size:13px;}
+  .tips li::before{content:"\2726";position:absolute;left:2px;top:4px;color:var(--acc);}
+  .credits{margin-top:42px;display:flex;align-items:center;gap:18px;background:linear-gradient(180deg,#0d141c,#0a0f15);border:1px solid var(--line);border-radius:18px;padding:22px;}
+  @media(max-width:520px){.credits{flex-direction:column;text-align:center;}}
+  .avatar{width:78px;height:78px;border-radius:18px;flex:0 0 78px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:26px;color:#04121f;background:linear-gradient(135deg,var(--acc),#1f6feb);border:1px solid var(--line);box-shadow:0 6px 18px rgba(0,0,0,.45);}
+  .avatar img{width:100%;height:100%;object-fit:cover;display:block;}
+  .cby{color:var(--mut);font-size:12px;font-family:var(--mono);}
+  .cname2{font-size:18px;font-weight:800;margin:2px 0 12px;}
+  .social{display:flex;gap:10px;flex-wrap:wrap;}
+  .social a{display:inline-flex;align-items:center;gap:7px;text-decoration:none;color:var(--tx);background:#11181f;border:1px solid var(--line);border-radius:10px;padding:9px 14px;font-weight:600;font-size:13px;transition:all .15s;}
+  .social a:hover{border-color:var(--acc);color:var(--acc);transform:translateY(-2px);}
+  .social svg{width:17px;height:17px;fill:currentColor;}
+  .foot{color:#4a5560;font-size:11px;text-align:center;margin-top:22px;font-family:var(--mono);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span class="live"><i></i>GUIDE</span>
+    <span>github-repo-stats · ulanzi deck</span>
+    <span class="path">v1.0.0</span>
+  </div>
+
+  <h1><span class="g">GitHub</span> Repo Stats</h1>
+  <div class="sub" id="sub"></div>
+  <p class="lead" id="lead"></p>
+  <nav class="toc" id="toc"></nav>
+
+  <div id="sections"></div>
+
+  <div class="credits">
+    <div class="avatar"><img src="../assets/author.jpg" alt="Jean Almeida" onerror="this.remove(); this.parentNode.textContent='JA';"></div>
+    <div>
+      <div class="cby" id="c_by">Developed by</div>
+      <div class="cname2">Jean Almeida</div>
+      <div class="social">
+        <a href="https://www.linkedin.com/in/jeanc-almeida/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+          <span>LinkedIn</span>
+        </a>
+        <a href="https://github.com/JEAN-ALMEIDA-CZO/GitHub-Repo-Stats-Plugin" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg>
+          <span>GitHub</span>
+        </a>
+        <a href="https://portifolio.athos.app.br/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.9 6h-2.8a15.7 15.7 0 0 0-1.3-3.6A8 8 0 0 1 18.9 8zM12 4c.8 1.1 1.5 2.5 1.9 4h-3.8c.4-1.5 1.1-2.9 1.9-4zM4.3 14a8 8 0 0 1 0-4h3.2a16.8 16.8 0 0 0 0 4H4.3zm.8 2h2.8c.3 1.3.8 2.5 1.3 3.6A8 8 0 0 1 5.1 16zm2.8-8H5.1a8 8 0 0 1 4.1-3.6A15.7 15.7 0 0 0 7.9 8zM12 20c-.8-1.1-1.5-2.5-1.9-4h3.8c-.4 1.5-1.1 2.9-1.9 4zm2.3-6H9.7a14.7 14.7 0 0 1 0-4h4.6a14.7 14.7 0 0 1 0 4zm.4 5.6c.5-1.1 1-2.3 1.3-3.6h2.8a8 8 0 0 1-4.1 3.6zM16.5 14a16.8 16.8 0 0 0 0-4h3.2a8 8 0 0 1 0 4h-3.2z"/></svg>
+          <span id="c_site">Portfolio</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="foot" id="foot"></div>
+</div>
+
+<script>
+const FN_KEYS = ['repo','release','commits','ci','issues','user','rate'];
+const FN_SVG = { repo:'action-repo.svg', release:'action-release.svg', commits:'action-commits.svg', ci:'action-ci.svg', issues:'action-issues.svg', user:'action-user.svg', rate:'action-rate.svg' };
+const fnImg = (k) => '<img src="../assets/icons/' + FN_SVG[k] + '" alt="" loading="lazy">';
+
+const TUT = {
+en:{ sub:'How every action works', lead:'GitHub Repo Stats is a suite of seven monitors — each a separate key with its own icon. The key shows one metric at a time, big and centered; press the key to cycle to the next. Tap the ? button in any action to come back here.', tips:'Tips', by:'Developed by', foot:'GitHub Repo Stats — tutorial',
+ fn:{
+ repo:{ n:'Repo Stats', d:'Stars, forks, open issues and watchers of any public repo.', s:['Type the repository as <b>owner/repo</b> (or paste its GitHub URL).','The key shows one metric, big and centered, with its icon.','<b>Press the key</b> to cycle: stars → forks → issues → watchers.','Set the auto-update interval and theme to taste.'], t:['No token needed for public repos.','Long repo names scroll automatically (marquee).'] },
+ release:{ n:'Latest Release', d:'Newest release tag, total downloads and how long ago it was published.', s:['Enter the repository (owner/repo).','The key shows the latest release tag.','<b>Press</b> to cycle: version → downloads → published.','Downloads = the sum of every release asset.'], t:['Shows “—” when the repo has no releases.','Updates automatically on your chosen interval.'] },
+ commits:{ n:'Commit Activity', d:'Commits in the last 7 days, plus the last author and time.', s:['Enter the repository.','The number counts commits from the last 7 days.','<b>Press</b> to cycle: commits → last author → last time.','Refreshes in the background.'], t:['“100+” means the weekly count cap was reached.','Great to see if a project is active right now.'] },
+ ci:{ n:'CI / Actions', d:'Latest GitHub Actions run: passing, failing or running.', s:['Enter the repository.','The key shows the latest workflow run status.','Green ✓ = passing, red ✗ = failing, yellow = running.','<b>Press</b> to cycle: status → last run time.'], t:['Works for public repos without a token.','Pull-request runs are excluded for speed.'] },
+ issues:{ n:'Issues & PRs', d:'Open issues and open pull requests, counted separately.', s:['Enter the repository.','The key shows open issues first.','<b>Press</b> to switch between issues and PRs.','Each has its own icon for a quick glance.'], t:['Counts come from the GitHub search API.','Updates on the interval you choose.'] },
+ user:{ n:'User / Org', d:'Profile stats for any user or organization.', s:['Switch the target to a <b>username</b> (no owner/repo here).','The key shows followers first.','<b>Press</b> to cycle: followers → repos → gists → following.','Works for both users and organizations.'], t:['Type the username without the “@”.','Perfect for tracking your own profile growth.'] },
+ rate:{ n:'API Rate Limit', d:'How much of your GitHub API quota is left, with a reset countdown.', s:['Optionally add a token (raises the limit to 5000/h).','The key shows remaining requests out of the limit.','<b>Press</b> to cycle: remaining → reset countdown.','The color warns when the quota gets low.'], t:['Without a token the limit is about 60/h.','Useful when you run several monitors at once.'] } } },
+
+pt:{ sub:'Como funciona cada ação', lead:'O GitHub Repo Stats é uma suíte de sete monitores — cada um é uma tecla com seu próprio ícone. A tecla mostra uma métrica por vez, grande e centralizada; pressione a tecla para alternar para a próxima. Toque no botão ? de qualquer ação para voltar aqui.', tips:'Dicas', by:'Desenvolvido por', foot:'GitHub Repo Stats — tutorial',
+ fn:{
+ repo:{ n:'Estatísticas do Repo', d:'Estrelas, forks, issues abertas e observadores de qualquer repositório público.', s:['Digite o repositório como <b>owner/repo</b> (ou cole a URL do GitHub).','A tecla mostra uma métrica, grande e centralizada, com o ícone.','<b>Pressione a tecla</b> para alternar: estrelas → forks → issues → observadores.','Defina o intervalo de atualização e o tema ao seu gosto.'], t:['Repos públicos não precisam de token.','Nomes longos de repo rolam sozinhos (marquee).'] },
+ release:{ n:'Última Release', d:'Tag da release mais nova, total de downloads e há quanto foi publicada.', s:['Informe o repositório (owner/repo).','A tecla mostra a tag da última release.','<b>Pressione</b> para alternar: versão → downloads → publicado.','Downloads = soma de todos os arquivos da release.'], t:['Mostra “—” quando o repo não tem releases.','Atualiza sozinho no intervalo escolhido.'] },
+ commits:{ n:'Atividade de Commits', d:'Commits dos últimos 7 dias, mais o último autor e horário.', s:['Informe o repositório.','O número conta os commits dos últimos 7 dias.','<b>Pressione</b> para alternar: commits → último autor → horário.','Atualiza em segundo plano.'], t:['“100+” indica que o limite semanal foi atingido.','Ótimo para ver se um projeto está ativo agora.'] },
+ ci:{ n:'CI / Actions', d:'Último workflow do GitHub Actions: passou, falhou ou rodando.', s:['Informe o repositório.','A tecla mostra o status do último workflow.','Verde ✓ = passou, vermelho ✗ = falhou, amarelo = rodando.','<b>Pressione</b> para alternar: status → horário da execução.'], t:['Funciona em repos públicos sem token.','Execuções de pull request são excluídas por velocidade.'] },
+ issues:{ n:'Issues & PRs', d:'Issues abertas e pull requests abertos, contados separadamente.', s:['Informe o repositório.','A tecla mostra primeiro as issues abertas.','<b>Pressione</b> para alternar entre issues e PRs.','Cada um tem seu ícone para leitura rápida.'], t:['As contagens vêm da API de busca do GitHub.','Atualiza no intervalo que você escolher.'] },
+ user:{ n:'Usuário / Org', d:'Estatísticas de perfil de qualquer usuário ou organização.', s:['Mude o alvo para um <b>nome de usuário</b> (aqui não é owner/repo).','A tecla mostra primeiro os seguidores.','<b>Pressione</b> para alternar: seguidores → repos → gists → seguindo.','Funciona para usuários e organizações.'], t:['Digite o nome de usuário sem o “@”.','Perfeito para acompanhar o crescimento do seu perfil.'] },
+ rate:{ n:'Limite da API', d:'Quanto resta da sua cota da API do GitHub, com contagem para resetar.', s:['Opcionalmente adicione um token (sobe o limite para 5000/h).','A tecla mostra as requisições restantes em relação ao limite.','<b>Pressione</b> para alternar: restante → contagem de reset.','A cor avisa quando a cota fica baixa.'], t:['Sem token o limite é cerca de 60/h.','Útil quando você usa vários monitores ao mesmo tempo.'] } } },
+
+es:{ sub:'Cómo funciona cada acción', lead:'GitHub Repo Stats es un conjunto de siete monitores — cada uno es una tecla con su propio icono. La tecla muestra una métrica a la vez, grande y centrada; pulsa la tecla para pasar a la siguiente. Toca el botón ? de cualquier acción para volver aquí.', tips:'Consejos', by:'Desarrollado por', foot:'GitHub Repo Stats — tutorial',
+ fn:{
+ repo:{ n:'Estadísticas del Repo', d:'Estrellas, forks, issues abiertas y observadores de cualquier repo público.', s:['Escribe el repositorio como <b>owner/repo</b> (o pega su URL de GitHub).','La tecla muestra una métrica, grande y centrada, con su icono.','<b>Pulsa la tecla</b> para cambiar: estrellas → forks → issues → observadores.','Ajusta el intervalo y el tema a tu gusto.'], t:['Los repos públicos no necesitan token.','Los nombres largos se desplazan solos (marquesina).'] },
+ release:{ n:'Última Release', d:'Etiqueta de la release más nueva, descargas totales y cuándo se publicó.', s:['Introduce el repositorio (owner/repo).','La tecla muestra la etiqueta de la última release.','<b>Pulsa</b> para cambiar: versión → descargas → publicado.','Descargas = suma de todos los archivos de la release.'], t:['Muestra “—” si el repo no tiene releases.','Se actualiza solo en el intervalo elegido.'] },
+ commits:{ n:'Actividad de Commits', d:'Commits de los últimos 7 días, más el último autor y la hora.', s:['Introduce el repositorio.','El número cuenta los commits de los últimos 7 días.','<b>Pulsa</b> para cambiar: commits → último autor → hora.','Se actualiza en segundo plano.'], t:['“100+” indica que se alcanzó el tope semanal.','Ideal para ver si un proyecto está activo ahora.'] },
+ ci:{ n:'CI / Actions', d:'Última ejecución de GitHub Actions: correcta, fallida o en curso.', s:['Introduce el repositorio.','La tecla muestra el estado del último workflow.','Verde ✓ = correcto, rojo ✗ = fallo, amarillo = en curso.','<b>Pulsa</b> para cambiar: estado → hora de la ejecución.'], t:['Funciona en repos públicos sin token.','Las ejecuciones de PR se excluyen por velocidad.'] },
+ issues:{ n:'Issues y PRs', d:'Issues abiertas y pull requests abiertos, contados por separado.', s:['Introduce el repositorio.','La tecla muestra primero las issues abiertas.','<b>Pulsa</b> para cambiar entre issues y PRs.','Cada uno tiene su icono para un vistazo rápido.'], t:['Las cuentas vienen de la API de búsqueda de GitHub.','Se actualiza en el intervalo que elijas.'] },
+ user:{ n:'Usuario / Org', d:'Estadísticas de perfil de cualquier usuario u organización.', s:['Cambia el objetivo a un <b>nombre de usuario</b> (aquí no es owner/repo).','La tecla muestra primero los seguidores.','<b>Pulsa</b> para cambiar: seguidores → repos → gists → siguiendo.','Funciona para usuarios y organizaciones.'], t:['Escribe el nombre sin el “@”.','Perfecto para seguir el crecimiento de tu perfil.'] },
+ rate:{ n:'Límite de API', d:'Cuánto queda de tu cuota de la API de GitHub, con cuenta atrás de reinicio.', s:['Opcionalmente añade un token (sube el límite a 5000/h).','La tecla muestra las peticiones restantes sobre el límite.','<b>Pulsa</b> para cambiar: restante → cuenta atrás de reinicio.','El color avisa cuando la cuota baja.'], t:['Sin token el límite es de unas 60/h.','Útil cuando usas varios monitores a la vez.'] } } },
+
+fr:{ sub:'Comment fonctionne chaque action', lead:'GitHub Repo Stats est une suite de sept moniteurs — chacun est une touche avec sa propre icône. La touche affiche une métrique à la fois, grande et centrée ; appuyez sur la touche pour passer à la suivante. Touchez le bouton ? de n’importe quelle action pour revenir ici.', tips:'Astuces', by:'Développé par', foot:'GitHub Repo Stats — tutoriel',
+ fn:{
+ repo:{ n:'Stats du Dépôt', d:'Étoiles, forks, issues ouvertes et observateurs de tout dépôt public.', s:['Saisissez le dépôt sous la forme <b>owner/repo</b> (ou collez son URL GitHub).','La touche affiche une métrique, grande et centrée, avec son icône.','<b>Appuyez sur la touche</b> pour défiler : étoiles → forks → issues → observateurs.','Réglez l’intervalle et le thème à votre goût.'], t:['Aucun jeton requis pour les dépôts publics.','Les noms longs défilent automatiquement (marquee).'] },
+ release:{ n:'Dernière Release', d:'Tag de la release la plus récente, téléchargements totaux et date.', s:['Saisissez le dépôt (owner/repo).','La touche affiche le tag de la dernière release.','<b>Appuyez</b> pour défiler : version → téléchargements → publié.','Téléchargements = somme de tous les fichiers de la release.'], t:['Affiche « — » si le dépôt n’a pas de release.','Se met à jour seul selon l’intervalle choisi.'] },
+ commits:{ n:'Activité Commits', d:'Commits des 7 derniers jours, plus le dernier auteur et l’heure.', s:['Saisissez le dépôt.','Le nombre compte les commits des 7 derniers jours.','<b>Appuyez</b> pour défiler : commits → dernier auteur → heure.','Se rafraîchit en arrière-plan.'], t:['« 100+ » signifie que le plafond hebdo est atteint.','Idéal pour voir si un projet est actif en ce moment.'] },
+ ci:{ n:'CI / Actions', d:'Dernier run GitHub Actions : réussi, échoué ou en cours.', s:['Saisissez le dépôt.','La touche affiche l’état du dernier workflow.','Vert ✓ = réussi, rouge ✗ = échoué, jaune = en cours.','<b>Appuyez</b> pour défiler : état → heure du run.'], t:['Fonctionne sur les dépôts publics sans jeton.','Les runs de pull request sont exclus pour la rapidité.'] },
+ issues:{ n:'Issues & PRs', d:'Issues ouvertes et pull requests ouvertes, comptées séparément.', s:['Saisissez le dépôt.','La touche affiche d’abord les issues ouvertes.','<b>Appuyez</b> pour basculer entre issues et PRs.','Chacun a son icône pour un coup d’œil rapide.'], t:['Les compteurs viennent de l’API de recherche GitHub.','Se met à jour selon l’intervalle choisi.'] },
+ user:{ n:'Utilisateur / Org', d:'Statistiques de profil de tout utilisateur ou organisation.', s:['Basculez la cible sur un <b>nom d’utilisateur</b> (pas owner/repo ici).','La touche affiche d’abord les abonnés.','<b>Appuyez</b> pour défiler : abonnés → dépôts → gists → abonnements.','Fonctionne pour les utilisateurs et les organisations.'], t:['Saisissez le nom sans le « @ ».','Parfait pour suivre la croissance de votre profil.'] },
+ rate:{ n:'Limite API', d:'Ce qu’il reste de votre quota d’API GitHub, avec compte à rebours.', s:['Ajoutez un jeton si besoin (porte la limite à 5000/h).','La touche affiche les requêtes restantes sur la limite.','<b>Appuyez</b> pour défiler : restant → compte à rebours.','La couleur prévient quand le quota baisse.'], t:['Sans jeton la limite est d’environ 60/h.','Utile quand vous utilisez plusieurs moniteurs.'] } } },
+
+de:{ sub:'So funktioniert jede Aktion', lead:'GitHub Repo Stats ist eine Suite aus sieben Monitoren — jeder eine Taste mit eigenem Icon. Die Taste zeigt eine Metrik nach der anderen, groß und zentriert; drücke die Taste, um zur nächsten zu wechseln. Tippe in jeder Aktion auf ?, um hierher zurückzukommen.', tips:'Tipps', by:'Entwickelt von', foot:'GitHub Repo Stats — Anleitung',
+ fn:{
+ repo:{ n:'Repo-Statistik', d:'Sterne, Forks, offene Issues und Beobachter jedes öffentlichen Repos.', s:['Gib das Repository als <b>owner/repo</b> ein (oder füge die GitHub-URL ein).','Die Taste zeigt eine Metrik, groß und zentriert, mit Icon.','<b>Drücke die Taste</b> zum Wechseln: Sterne → Forks → Issues → Beobachter.','Intervall und Design nach Geschmack einstellen.'], t:['Öffentliche Repos brauchen kein Token.','Lange Repo-Namen laufen automatisch durch (Marquee).'] },
+ release:{ n:'Neueste Release', d:'Neuestes Release-Tag, Gesamt-Downloads und wann veröffentlicht.', s:['Repository eingeben (owner/repo).','Die Taste zeigt das neueste Release-Tag.','<b>Drücken</b> zum Wechseln: Version → Downloads → veröffentlicht.','Downloads = Summe aller Release-Dateien.'], t:['Zeigt „—“, wenn das Repo keine Release hat.','Aktualisiert automatisch im gewählten Intervall.'] },
+ commits:{ n:'Commit-Aktivität', d:'Commits der letzten 7 Tage, plus letzter Autor und Zeit.', s:['Repository eingeben.','Die Zahl zählt Commits der letzten 7 Tage.','<b>Drücken</b> zum Wechseln: Commits → letzter Autor → Zeit.','Aktualisiert im Hintergrund.'], t:['„100+“ heißt, das Wochenlimit wurde erreicht.','Ideal, um zu sehen, ob ein Projekt gerade aktiv ist.'] },
+ ci:{ n:'CI / Actions', d:'Letzter GitHub-Actions-Lauf: erfolgreich, fehlgeschlagen oder laufend.', s:['Repository eingeben.','Die Taste zeigt den Status des letzten Workflows.','Grün ✓ = erfolgreich, rot ✗ = fehlgeschlagen, gelb = läuft.','<b>Drücken</b> zum Wechseln: Status → Lauf-Zeit.'], t:['Funktioniert für öffentliche Repos ohne Token.','PR-Läufe werden zur Beschleunigung ausgeschlossen.'] },
+ issues:{ n:'Issues & PRs', d:'Offene Issues und offene Pull Requests, getrennt gezählt.', s:['Repository eingeben.','Die Taste zeigt zuerst offene Issues.','<b>Drücken</b>, um zwischen Issues und PRs zu wechseln.','Jedes hat sein Icon für den schnellen Blick.'], t:['Die Zahlen kommen aus der GitHub-Such-API.','Aktualisiert im gewählten Intervall.'] },
+ user:{ n:'Benutzer / Org', d:'Profil-Statistik für jeden Benutzer oder jede Organisation.', s:['Ziel auf einen <b>Benutzernamen</b> umstellen (hier kein owner/repo).','Die Taste zeigt zuerst die Follower.','<b>Drücken</b> zum Wechseln: Follower → Repos → Gists → Folge.','Funktioniert für Benutzer und Organisationen.'], t:['Benutzernamen ohne „@“ eingeben.','Perfekt, um dein eigenes Profilwachstum zu verfolgen.'] },
+ rate:{ n:'API-Limit', d:'Wie viel deines GitHub-API-Kontingents übrig ist, mit Reset-Countdown.', s:['Optional ein Token hinzufügen (hebt das Limit auf 5000/h).','Die Taste zeigt die übrigen Anfragen vom Limit.','<b>Drücken</b> zum Wechseln: übrig → Reset-Countdown.','Die Farbe warnt, wenn das Kontingent knapp wird.'], t:['Ohne Token liegt das Limit bei etwa 60/h.','Nützlich bei mehreren Monitoren gleichzeitig.'] } } },
+
+it:{ sub:'Come funziona ogni azione', lead:'GitHub Repo Stats è una suite di sette monitor — ciascuno è un tasto con la propria icona. Il tasto mostra una metrica alla volta, grande e centrata; premi il tasto per passare alla successiva. Tocca il pulsante ? in qualsiasi azione per tornare qui.', tips:'Suggerimenti', by:'Sviluppato da', foot:'GitHub Repo Stats — tutorial',
+ fn:{
+ repo:{ n:'Statistiche Repo', d:'Stelle, fork, issue aperte e osservatori di qualsiasi repo pubblico.', s:['Scrivi il repository come <b>owner/repo</b> (o incolla l’URL GitHub).','Il tasto mostra una metrica, grande e centrata, con la sua icona.','<b>Premi il tasto</b> per scorrere: stelle → fork → issue → osservatori.','Imposta intervallo e tema a piacere.'], t:['I repo pubblici non richiedono token.','I nomi lunghi scorrono da soli (marquee).'] },
+ release:{ n:'Ultima Release', d:'Tag della release più recente, download totali e quando è stata pubblicata.', s:['Inserisci il repository (owner/repo).','Il tasto mostra il tag dell’ultima release.','<b>Premi</b> per scorrere: versione → download → pubblicato.','Download = somma di tutti i file della release.'], t:['Mostra “—” se il repo non ha release.','Si aggiorna da solo nell’intervallo scelto.'] },
+ commits:{ n:'Attività Commit', d:'Commit degli ultimi 7 giorni, più ultimo autore e orario.', s:['Inserisci il repository.','Il numero conta i commit degli ultimi 7 giorni.','<b>Premi</b> per scorrere: commit → ultimo autore → orario.','Si aggiorna in background.'], t:['“100+” indica che il limite settimanale è stato raggiunto.','Ottimo per vedere se un progetto è attivo adesso.'] },
+ ci:{ n:'CI / Actions', d:'Ultima esecuzione di GitHub Actions: riuscita, fallita o in corso.', s:['Inserisci il repository.','Il tasto mostra lo stato dell’ultimo workflow.','Verde ✓ = riuscito, rosso ✗ = fallito, giallo = in corso.','<b>Premi</b> per scorrere: stato → orario dell’esecuzione.'], t:['Funziona sui repo pubblici senza token.','Le esecuzioni delle PR sono escluse per velocità.'] },
+ issues:{ n:'Issue & PR', d:'Issue aperte e pull request aperte, contate separatamente.', s:['Inserisci il repository.','Il tasto mostra prima le issue aperte.','<b>Premi</b> per passare tra issue e PR.','Ognuna ha la sua icona per un colpo d’occhio.'], t:['I conteggi vengono dall’API di ricerca di GitHub.','Si aggiorna nell’intervallo scelto.'] },
+ user:{ n:'Utente / Org', d:'Statistiche del profilo di qualsiasi utente o organizzazione.', s:['Cambia l’obiettivo in un <b>nome utente</b> (qui non è owner/repo).','Il tasto mostra prima i follower.','<b>Premi</b> per scorrere: follower → repo → gist → seguiti.','Funziona per utenti e organizzazioni.'], t:['Scrivi il nome utente senza la “@”.','Perfetto per seguire la crescita del tuo profilo.'] },
+ rate:{ n:'Limite API', d:'Quanto resta della tua quota API di GitHub, con conto alla rovescia.', s:['Aggiungi un token se vuoi (porta il limite a 5000/h).','Il tasto mostra le richieste rimaste sul limite.','<b>Premi</b> per scorrere: rimaste → conto alla rovescia.','Il colore avvisa quando la quota si abbassa.'], t:['Senza token il limite è circa 60/h.','Utile quando usi più monitor insieme.'] } } },
+
+ja:{ sub:'各アクションの使い方', lead:'GitHub Repo Stats は7つのモニターのスイートです。各アクションは専用アイコンを持つ1つのキー。キーは指標を1つずつ大きく中央に表示し、キーを押すと次へ切り替わります。各アクションの「?」でいつでもここに戻れます。', tips:'ヒント', by:'開発者', foot:'GitHub Repo Stats — チュートリアル',
+ fn:{
+ repo:{ n:'リポジトリ統計', d:'公開リポジトリのスター・フォーク・未解決Issue・ウォッチャー。', s:['リポジトリを <b>owner/repo</b> 形式で入力（GitHubのURLを貼ってもOK）。','キーに指標が大きく中央に、アイコン付きで表示。','<b>キーを押す</b>と切替：スター → フォーク → Issue → ウォッチャー。','更新間隔とテーマを好みで設定。'], t:['公開リポジトリにトークンは不要。','長いリポジトリ名は自動でスクロール（マーキー）。'] },
+ release:{ n:'最新リリース', d:'最新リリースのタグ、総ダウンロード数、公開からの経過。', s:['リポジトリ（owner/repo）を入力。','キーに最新リリースのタグを表示。','<b>押して</b>切替：バージョン → ダウンロード → 公開。','ダウンロード=全リリースファイルの合計。'], t:['リリースが無いと「—」を表示。','設定した間隔で自動更新。'] },
+ commits:{ n:'コミット活動', d:'過去7日間のコミット、最新の作成者と時刻。', s:['リポジトリを入力。','数字は過去7日間のコミット数。','<b>押して</b>切替：コミット → 最新作成者 → 時刻。','バックグラウンドで更新。'], t:['「100+」は週の上限到達。','プロジェクトが今アクティブか分かる。'] },
+ ci:{ n:'CI / Actions', d:'最新のGitHub Actions実行：成功・失敗・実行中。', s:['リポジトリを入力。','キーに最新ワークフローの状態を表示。','緑✓=成功、赤✗=失敗、黄=実行中。','<b>押して</b>切替：状態 → 実行時刻。'], t:['公開リポジトリならトークン不要。','PRの実行は速度のため除外。'] },
+ issues:{ n:'Issue & PR', d:'未解決Issueと未解決プルリクを別々にカウント。', s:['リポジトリを入力。','まず未解決Issueを表示。','<b>押して</b>IssueとPRを切替。','それぞれアイコンで一目で分かる。'], t:['数値はGitHub検索APIから取得。','選んだ間隔で更新。'] },
+ user:{ n:'ユーザー / Org', d:'任意のユーザーや組織のプロフィール統計。', s:['対象を<b>ユーザー名</b>に切替（ここはowner/repoではない）。','まずフォロワーを表示。','<b>押して</b>切替：フォロワー → リポジトリ → Gist → フォロー中。','ユーザーと組織の両方に対応。'], t:['ユーザー名は「@」なしで入力。','自分のプロフィール成長の追跡に最適。'] },
+ rate:{ n:'APIレート上限', d:'GitHub APIクォータの残量とリセットまでのカウントダウン。', s:['必要ならトークンを追加（上限が5000/hに）。','キーに上限に対する残り回数を表示。','<b>押して</b>切替：残り → リセットまで。','残量が少ないと色で警告。'], t:['トークン無しだと上限は約60/h。','複数モニターを使うときに便利。'] } } },
+
+ko:{ sub:'각 액션의 작동 방식', lead:'GitHub Repo Stats는 일곱 개의 모니터 모음입니다 — 각 액션은 고유 아이콘이 있는 하나의 키. 키는 한 번에 하나의 지표를 크게 가운데에 표시하고, 키를 누르면 다음으로 전환됩니다. 각 액션의 ? 버튼으로 언제든 여기로 돌아올 수 있어요.', tips:'팁', by:'개발자', foot:'GitHub Repo Stats — 튜토리얼',
+ fn:{
+ repo:{ n:'저장소 통계', d:'공개 저장소의 스타·포크·열린 이슈·워처.', s:['저장소를 <b>owner/repo</b> 형식으로 입력(GitHub URL 붙여넣기도 가능).','키에 지표가 아이콘과 함께 크게 가운데 표시.','<b>키를 누르면</b> 전환: 스타 → 포크 → 이슈 → 워처.','업데이트 간격과 테마를 취향대로 설정.'], t:['공개 저장소는 토큰이 필요 없어요.','긴 저장소 이름은 자동 스크롤(마퀴).'] },
+ release:{ n:'최신 릴리스', d:'최신 릴리스 태그, 총 다운로드, 게시 후 경과 시간.', s:['저장소(owner/repo)를 입력.','키에 최신 릴리스 태그를 표시.','<b>눌러</b> 전환: 버전 → 다운로드 → 게시.','다운로드 = 모든 릴리스 파일의 합.'], t:['릴리스가 없으면 “—” 표시.','선택한 간격으로 자동 업데이트.'] },
+ commits:{ n:'커밋 활동', d:'최근 7일 커밋, 마지막 작성자와 시각.', s:['저장소를 입력.','숫자는 최근 7일 커밋 수.','<b>눌러</b> 전환: 커밋 → 마지막 작성자 → 시각.','백그라운드에서 갱신.'], t:['“100+”는 주간 상한 도달.','프로젝트가 지금 활발한지 확인하기 좋아요.'] },
+ ci:{ n:'CI / Actions', d:'최신 GitHub Actions 실행: 성공·실패·실행 중.', s:['저장소를 입력.','키에 최신 워크플로 상태를 표시.','초록 ✓ = 성공, 빨강 ✗ = 실패, 노랑 = 실행 중.','<b>눌러</b> 전환: 상태 → 실행 시각.'], t:['공개 저장소는 토큰 없이 작동.','PR 실행은 속도를 위해 제외.'] },
+ issues:{ n:'이슈 & PR', d:'열린 이슈와 열린 풀 리퀘스트를 따로 집계.', s:['저장소를 입력.','키에 먼저 열린 이슈를 표시.','<b>눌러</b> 이슈와 PR을 전환.','각각 아이콘이 있어 한눈에.'], t:['집계는 GitHub 검색 API에서 가져와요.','선택한 간격으로 업데이트.'] },
+ user:{ n:'사용자 / Org', d:'사용자나 조직의 프로필 통계.', s:['대상을 <b>사용자 이름</b>으로 전환(여기는 owner/repo 아님).','키에 먼저 팔로워를 표시.','<b>눌러</b> 전환: 팔로워 → 저장소 → Gist → 팔로잉.','사용자와 조직 모두 지원.'], t:['사용자 이름은 “@” 없이 입력.','내 프로필 성장 추적에 딱.'] },
+ rate:{ n:'API 한도', d:'GitHub API 사용량의 남은 양과 초기화 카운트다운.', s:['선택적으로 토큰 추가(한도가 5000/h로 상승).','키에 한도 대비 남은 요청 수를 표시.','<b>눌러</b> 전환: 남음 → 초기화까지.','사용량이 적으면 색으로 경고.'], t:['토큰 없으면 한도는 약 60/h.','여러 모니터를 쓸 때 유용.'] } } },
+
+zh:{ sub:'每个动作的用法', lead:'GitHub Repo Stats 是七个监视器的集合 —— 每个动作都是一个带自己图标的按键。按键一次居中显示一个指标；按下按键即可切换到下一个。点任意动作中的 ? 按钮即可回到本页。', tips:'提示', by:'开发者', foot:'GitHub Repo Stats — 教程',
+ fn:{
+ repo:{ n:'仓库统计', d:'任意公开仓库的星标、复刻、未关闭议题和关注者。', s:['以 <b>owner/repo</b> 格式输入仓库（也可粘贴 GitHub 链接）。','按键居中放大显示一个指标，并带图标。','<b>按下按键</b>切换：星标 → 复刻 → 议题 → 观察者。','按喜好设置更新间隔和主题。'], t:['公开仓库无需令牌。','过长的仓库名会自动滚动（跑马灯）。'] },
+ release:{ n:'最新发布', d:'最新发布的标签、总下载量以及发布至今时长。', s:['输入仓库（owner/repo）。','按键显示最新发布的标签。','<b>按下</b>切换：版本 → 下载 → 发布时间。','下载量 = 所有发布文件之和。'], t:['仓库无发布时显示“—”。','按所选间隔自动更新。'] },
+ commits:{ n:'提交活动', d:'最近 7 天的提交，以及最近的作者和时间。', s:['输入仓库。','数字统计最近 7 天的提交。','<b>按下</b>切换：提交 → 最近作者 → 时间。','后台自动刷新。'], t:['“100+”表示已达每周上限。','便于查看项目当前是否活跃。'] },
+ ci:{ n:'CI / Actions', d:'最新的 GitHub Actions 运行：通过、失败或进行中。', s:['输入仓库。','按键显示最新工作流的状态。','绿 ✓ = 通过，红 ✗ = 失败，黄 = 进行中。','<b>按下</b>切换：状态 → 运行时间。'], t:['公开仓库无需令牌即可使用。','为提速已排除 PR 触发的运行。'] },
+ issues:{ n:'议题与 PR', d:'分别统计未关闭的议题和未关闭的拉取请求。', s:['输入仓库。','按键先显示未关闭的议题。','<b>按下</b>在议题与 PR 之间切换。','各自有图标，一眼可辨。'], t:['计数来自 GitHub 搜索 API。','按所选间隔更新。'] },
+ user:{ n:'用户 / 组织', d:'任意用户或组织的资料统计。', s:['把目标切换为<b>用户名</b>（此处不是 owner/repo）。','按键先显示关注者。','<b>按下</b>切换：关注者 → 仓库 → Gist → 关注。','用户和组织都支持。'], t:['用户名不带“@”。','非常适合追踪自己资料的增长。'] },
+ rate:{ n:'API 配额', d:'你的 GitHub API 配额剩余量，以及重置倒计时。', s:['可选添加令牌（上限提升到 5000/h）。','按键显示相对上限的剩余请求数。','<b>按下</b>切换：剩余 → 重置倒计时。','配额偏低时用颜色提醒。'], t:['无令牌时上限约为 60/h。','同时运行多个监视器时很有用。'] } } },
+
+zh_TW:{ sub:'每個動作的用法', lead:'GitHub Repo Stats 是七個監視器的集合 —— 每個動作都是一個帶自己圖示的按鍵。按鍵一次置中顯示一個指標；按下按鍵即可切換到下一個。點任一動作中的 ? 按鈕即可回到本頁。', tips:'提示', by:'開發者', foot:'GitHub Repo Stats — 教學',
+ fn:{
+ repo:{ n:'倉庫統計', d:'任何公開倉庫的星標、分支、未關閉議題和關注者。', s:['以 <b>owner/repo</b> 格式輸入倉庫（也可貼上 GitHub 連結）。','按鍵置中放大顯示一個指標，並帶圖示。','<b>按下按鍵</b>切換：星標 → 複刻 → 議題 → 觀察者。','按喜好設定更新間隔和主題。'], t:['公開倉庫不需權杖。','過長的倉庫名會自動捲動（跑馬燈）。'] },
+ release:{ n:'最新發佈', d:'最新發佈的標籤、總下載量以及發佈至今時長。', s:['輸入倉庫（owner/repo）。','按鍵顯示最新發佈的標籤。','<b>按下</b>切換：版本 → 下載 → 發佈時間。','下載量 = 所有發佈檔案之和。'], t:['倉庫無發佈時顯示「—」。','按所選間隔自動更新。'] },
+ commits:{ n:'提交活動', d:'最近 7 天的提交，以及最近的作者和時間。', s:['輸入倉庫。','數字統計最近 7 天的提交。','<b>按下</b>切換：提交 → 最近作者 → 時間。','背景自動重新整理。'], t:['「100+」表示已達每週上限。','便於查看專案目前是否活躍。'] },
+ ci:{ n:'CI / Actions', d:'最新的 GitHub Actions 執行：通過、失敗或進行中。', s:['輸入倉庫。','按鍵顯示最新工作流程的狀態。','綠 ✓ = 通過，紅 ✗ = 失敗，黃 = 進行中。','<b>按下</b>切換：狀態 → 執行時間。'], t:['公開倉庫不需權杖即可使用。','為提速已排除 PR 觸發的執行。'] },
+ issues:{ n:'議題與 PR', d:'分別統計未關閉的議題和未關閉的拉取請求。', s:['輸入倉庫。','按鍵先顯示未關閉的議題。','<b>按下</b>在議題與 PR 之間切換。','各自有圖示，一眼可辨。'], t:['計數來自 GitHub 搜尋 API。','按所選間隔更新。'] },
+ user:{ n:'使用者 / 組織', d:'任何使用者或組織的資料統計。', s:['把目標切換為<b>使用者名稱</b>（此處不是 owner/repo）。','按鍵先顯示關注者。','<b>按下</b>切換：關注者 → 倉庫 → Gist → 關注。','使用者和組織都支援。'], t:['使用者名稱不帶「@」。','非常適合追蹤自己資料的成長。'] },
+ rate:{ n:'API 配額', d:'你的 GitHub API 配額剩餘量，以及重設倒數。', s:['可選加入權杖（上限提升到 5000/h）。','按鍵顯示相對上限的剩餘請求數。','<b>按下</b>切換：剩餘 → 重設倒數。','配額偏低時用顏色提醒。'], t:['無權杖時上限約為 60/h。','同時執行多個監視器時很有用。'] } } }
+};
+
+function detectLang(){
+  const params = new URLSearchParams(location.search);
+  const hashP = new URLSearchParams((location.hash||'').replace(/^#/,''));
+  let l = params.get('lang') || hashP.get('lang') || navigator.language || 'en';
+  l = String(l).replace('-','_');
+  if (/^zh/i.test(l)) return /TW|HK|Hant/i.test(l) ? 'zh_TW' : 'zh';
+  const s = l.split('_')[0].toLowerCase();
+  return TUT[s] ? s : 'en';
+}
+function fnAnchor(){
+  const params = new URLSearchParams(location.search);
+  const hashP = new URLSearchParams((location.hash||'').replace(/^#/,''));
+  const f = params.get('t') || hashP.get('t') || params.get('fn') || hashP.get('fn') || '';
+  return FN_KEYS.includes(f) ? f : '';
+}
+
+const lang = detectLang();
+const d = TUT[lang] || TUT.en;
+document.documentElement.lang = lang;
+document.getElementById('sub').textContent = d.sub;
+document.getElementById('lead').textContent = d.lead;
+document.getElementById('c_by').textContent = d.by;
+document.getElementById('foot').textContent = d.foot;
+const PF = { pt:'Portfólio', es:'Portafolio', fr:'Portfolio', de:'Portfolio', it:'Portfolio', ja:'ポートフォリオ', ko:'포트폴리오', zh:'作品集', zh_TW:'作品集', en:'Portfolio' };
+document.getElementById('c_site').textContent = PF[lang] || 'Portfolio';
+
+const toc = document.getElementById('toc');
+const secWrap = document.getElementById('sections');
+FN_KEYS.forEach(k => {
+  const f = d.fn[k];
+  const a = document.createElement('a');
+  a.href = '#' + k; a.innerHTML = fnImg(k) + f.n;
+  toc.appendChild(a);
+  const sec = document.createElement('div');
+  sec.className = 'sec'; sec.id = k;
+  sec.innerHTML =
+    '<span class="kicker">' + k + '</span>' +
+    '<h2><span class="ic">' + fnImg(k) + '</span>' + f.n + '</h2>' +
+    '<p class="fdesc">' + f.d + '</p>' +
+    '<div class="card"><ol class="steps">' + f.s.map(x => '<li>' + x + '</li>').join('') + '</ol>' +
+    '<div class="tips"><span class="tt">' + d.tips + '</span><ul>' + f.t.map(x => '<li>' + x + '</li>').join('') + '</ul></div></div>';
+  secWrap.appendChild(sec);
+});
+
+const target = fnAnchor();
+if (target) {
+  const el = document.getElementById(target);
+  if (el) { el.classList.add('focus'); setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80); }
+}
+</script>
+</body>
+</html>

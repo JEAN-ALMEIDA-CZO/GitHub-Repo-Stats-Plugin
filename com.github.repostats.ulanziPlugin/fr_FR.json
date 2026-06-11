@@ -1,0 +1,91 @@
+{
+  "Name": "Statistiques GitHub",
+  "Description": "Étoiles, forks et problèmes en direct sur votre touche.",
+  "Actions": [
+    {
+      "Name": "Statistiques du Dépôt",
+      "Tooltip": "Étoiles, forks, problèmes et observateurs"
+    },
+    {
+      "Name": "Dernière Version",
+      "Tooltip": "Version la plus récente et téléchargements"
+    },
+    {
+      "Name": "Activité des Commits",
+      "Tooltip": "Commits récents"
+    },
+    {
+      "Name": "CI / Actions",
+      "Tooltip": "Statut du dernier workflow"
+    },
+    {
+      "Name": "Problèmes et Pull Requests",
+      "Tooltip": "Problèmes et pull requests ouverts"
+    },
+    {
+      "Name": "Utilisateur / Organisation",
+      "Tooltip": "Profil : abonnés, dépôts"
+    },
+    {
+      "Name": "Limite d'API",
+      "Tooltip": "Votre quota d'API GitHub"
+    }
+  ],
+  "Localization": {
+    "repository": "DÉPÔT",
+    "repo": "Dépôt",
+    "metric": "Métrique",
+    "stars": "Étoiles",
+    "forks": "Forks",
+    "issues": "Problèmes",
+    "watchers": "Observateurs",
+    "token": "Jeton d'accès",
+    "tokenHint": "Facultatif — un jeton augmente la limite de requêtes et autorise les dépôts privés.",
+    "refresh": "ACTUALISER",
+    "interval": "Toutes les",
+    "minutes": "minutes",
+    "refreshNow": "Actualiser maintenant",
+    "tipPressKey": "Appuyez sur la touche pour changer de métrique.",
+    "screen": "ÉCRAN",
+    "scrClassic": "Classique",
+    "scrChart": "Graphique",
+    "scrMinimal": "Minimaliste",
+    "theme": "THÈME",
+    "font": "Police",
+    "animated": "Animé",
+    "animatedHint": "Lueur douce en mouvement",
+    "tutorial": "Tutoriel",
+    "loading": "Chargement…",
+    "updated": "Mis à jour",
+    "pushed": "Envoyé",
+    "offline": "Hors ligne",
+    "notFound": "Dépôt introuvable",
+    "rateLimit": "Limite atteinte — utilisez un jeton",
+    "account": "COMPTE",
+    "auth": "AUTHENTIFICATION",
+    "user": "Utilisateur",
+    "prs": "Pull Requests",
+    "downloads": "Téléchargements",
+    "published": "Publié",
+    "noRelease": "Aucune version",
+    "commitsWeek": "Commits / 7j",
+    "by": "par",
+    "noCommits": "Aucun commit",
+    "success": "Succès",
+    "failed": "Échec",
+    "running": "En cours d'exécution",
+    "pending": "En attente",
+    "noRuns": "Aucune exécution",
+    "run": "Exécution",
+    "followers": "Abonnés",
+    "repos": "Dépôts",
+    "gists": "Notes",
+    "following": "Abonnements",
+    "remaining": "Restant",
+    "resets": "Réinitialise",
+    "version": "Version",
+    "author": "Auteur",
+    "status": "Statut",
+    "genToken": "Générer un jeton →"
+  }
+}

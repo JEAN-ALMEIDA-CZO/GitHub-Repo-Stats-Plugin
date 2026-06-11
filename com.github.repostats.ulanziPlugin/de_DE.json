@@ -1,0 +1,91 @@
+{
+  "Name": "GitHub-Statistiken",
+  "Description": "Sterne, Forks und Issues live auf deiner Taste.",
+  "Actions": [
+    {
+      "Name": "Repository-Statistiken",
+      "Tooltip": "Sterne, Forks, Issues und Watcher"
+    },
+    {
+      "Name": "Neuestes Release",
+      "Tooltip": "Neuestes Release und Downloads"
+    },
+    {
+      "Name": "Commit-Aktivität",
+      "Tooltip": "Kürzliche Commits"
+    },
+    {
+      "Name": "CI / Actions",
+      "Tooltip": "Status des letzten Workflows"
+    },
+    {
+      "Name": "Issues und Pull Requests",
+      "Tooltip": "Offene Issues und Pull Requests"
+    },
+    {
+      "Name": "Benutzer / Organisation",
+      "Tooltip": "Profil: Follower, Repositories"
+    },
+    {
+      "Name": "API-Limit",
+      "Tooltip": "Dein GitHub-API-Kontingent"
+    }
+  ],
+  "Localization": {
+    "repository": "REPOSITORY",
+    "repo": "Repository",
+    "metric": "Metrik",
+    "stars": "Sterne",
+    "forks": "Forks",
+    "issues": "Issues",
+    "watchers": "Watcher",
+    "token": "Zugriffstoken",
+    "tokenHint": "Optional — ein Token erhöht das API-Limit und erlaubt den Zugriff auf private Repositories.",
+    "refresh": "AKTUALISIEREN",
+    "interval": "Alle",
+    "minutes": "Minuten",
+    "refreshNow": "Jetzt aktualisieren",
+    "tipPressKey": "Taste drücken, um die Metrik zu wechseln.",
+    "screen": "ANZEIGE",
+    "scrClassic": "Klassisch",
+    "scrChart": "Diagramm",
+    "scrMinimal": "Minimalistisch",
+    "theme": "DESIGN",
+    "font": "Schriftart",
+    "animated": "Animiert",
+    "animatedHint": "Sanftes, bewegtes Leuchten",
+    "tutorial": "Tutorial",
+    "loading": "Wird geladen…",
+    "updated": "Aktualisiert",
+    "pushed": "Gepusht",
+    "offline": "Offline",
+    "notFound": "Repository nicht gefunden",
+    "rateLimit": "Limit erreicht — nutze ein Token",
+    "account": "KONTO",
+    "auth": "AUTHENTIFIZIERUNG",
+    "user": "Benutzer",
+    "prs": "Pull Requests",
+    "downloads": "Downloads",
+    "published": "Veröffentlicht",
+    "noRelease": "Kein Release",
+    "commitsWeek": "Commits / 7T",
+    "by": "von",
+    "noCommits": "Keine Commits",
+    "success": "Erfolgreich",
+    "failed": "Fehlgeschlagen",
+    "running": "Wird ausgeführt",
+    "pending": "Ausstehend",
+    "noRuns": "Keine Ausführungen",
+    "run": "Ausführung",
+    "followers": "Follower",
+    "repos": "Repositories",
+    "gists": "Notizen",
+    "following": "Folgend",
+    "remaining": "Verbleibend",
+    "resets": "Zurücksetzen",
+    "version": "Version",
+    "author": "Autor",
+    "status": "Status",
+    "genToken": "Token generieren →"
+  }
+}

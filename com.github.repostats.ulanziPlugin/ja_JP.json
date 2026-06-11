@@ -1,0 +1,91 @@
+{
+  "Name": "GitHub 統計",
+  "Description": "キーでリアルタイムのスター、フォーク、イシューを確認できます。",
+  "Actions": [
+    {
+      "Name": "リポジトリ統計",
+      "Tooltip": "スター、フォーク、イシュー、ウォッチャー"
+    },
+    {
+      "Name": "最新リリース",
+      "Tooltip": "最新のリリースとダウンロード"
+    },
+    {
+      "Name": "コミットアクティビティ",
+      "Tooltip": "最近のコミット"
+    },
+    {
+      "Name": "CI / アクション",
+      "Tooltip": "最新のワークフローステータス"
+    },
+    {
+      "Name": "イシューとプルリクエスト",
+      "Tooltip": "オープンなイシューとプルリクエスト"
+    },
+    {
+      "Name": "ユーザー / 組織",
+      "Tooltip": "プロフィール：フォロワー、リポジトリ"
+    },
+    {
+      "Name": "API 制限",
+      "Tooltip": "GitHub API の割り当て"
+    }
+  ],
+  "Localization": {
+    "repository": "リポジトリ",
+    "repo": "リポジトリ",
+    "metric": "指標",
+    "stars": "スター",
+    "forks": "フォーク",
+    "issues": "イシュー",
+    "watchers": "ウォッチャー",
+    "token": "アクセストークン",
+    "tokenHint": "任意 — トークンを使用すると、リクエスト制限が引き上げられ、プライベートリポジトリにアクセスできます。",
+    "refresh": "更新",
+    "interval": "毎",
+    "minutes": "分",
+    "refreshNow": "今すぐ更新",
+    "tipPressKey": "キーを押して指標を切り替えます。",
+    "screen": "画面",
+    "scrClassic": "クラシック",
+    "scrChart": "チャート",
+    "scrMinimal": "ミニマル",
+    "theme": "テーマ",
+    "font": "フォント",
+    "animated": "アニメーション",
+    "animatedHint": "滑らかに動く光",
+    "tutorial": "チュートリアル",
+    "loading": "読み込み中…",
+    "updated": "更新済み",
+    "pushed": "プッシュ済み",
+    "offline": "オフライン",
+    "notFound": "リポジトリが見つかりません",
+    "rateLimit": "制限到達 — トークンを使用してください",
+    "account": "アカウント",
+    "auth": "認証",
+    "user": "ユーザー",
+    "prs": "プルリクエスト",
+    "downloads": "ダウンロード",
+    "published": "公開済み",
+    "noRelease": "リリースなし",
+    "commitsWeek": "コミット / 7日",
+    "by": "作成者:",
+    "noCommits": "コミットなし",
+    "success": "成功",
+    "failed": "失敗",
+    "running": "実行中",
+    "pending": "保留中",
+    "noRuns": "実行記録なし",
+    "run": "実行",
+    "followers": "フォロワー",
+    "repos": "リポジトリ",
+    "gists": "ノート",
+    "following": "フォロー中",
+    "remaining": "残り",
+    "resets": "リセット",
+    "version": "バージョン",
+    "author": "作成者",
+    "status": "ステータス",
+    "genToken": "トークンを生成 →"
+  }
+}

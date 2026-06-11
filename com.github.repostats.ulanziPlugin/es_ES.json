@@ -1,0 +1,91 @@
+{
+  "Name": "Estadísticas de GitHub",
+  "Description": "Estrellas, forks y problemas en vivo en tu tecla.",
+  "Actions": [
+    {
+      "Name": "Estadísticas del Repositorio",
+      "Tooltip": "Estrellas, forks, problemas y observadores"
+    },
+    {
+      "Name": "Última Versión",
+      "Tooltip": "Versión más reciente y descargas"
+    },
+    {
+      "Name": "Actividad de Commits",
+      "Tooltip": "Commits recientes"
+    },
+    {
+      "Name": "CI / Actions",
+      "Tooltip": "Estado del último flujo de trabajo"
+    },
+    {
+      "Name": "Problemas y Pull Requests",
+      "Tooltip": "Problemas y pull requests abiertos"
+    },
+    {
+      "Name": "Usuario / Organización",
+      "Tooltip": "Perfil: seguidores, repositorios"
+    },
+    {
+      "Name": "Límite de API",
+      "Tooltip": "Tu cuota de la API de GitHub"
+    }
+  ],
+  "Localization": {
+    "repository": "REPOSITORIO",
+    "repo": "Repositorio",
+    "metric": "Métrica",
+    "stars": "Estrellas",
+    "forks": "Forks",
+    "issues": "Problemas",
+    "watchers": "Observadores",
+    "token": "Token de Acceso",
+    "tokenHint": "Opcional — un token aumenta el límite de solicitudes y permite repositorios privados.",
+    "refresh": "ACTUALIZAR",
+    "interval": "Cada",
+    "minutes": "minutos",
+    "refreshNow": "Actualizar ahora",
+    "tipPressKey": "Presiona la tecla para cambiar la métrica.",
+    "screen": "PANTALLA",
+    "scrClassic": "Clásico",
+    "scrChart": "Gráfico",
+    "scrMinimal": "Minimalista",
+    "theme": "TEMA",
+    "font": "Fuente",
+    "animated": "Animado",
+    "animatedHint": "Brillo suave en movimiento",
+    "tutorial": "Tutorial",
+    "loading": "Cargando…",
+    "updated": "Actualizado",
+    "pushed": "Enviado",
+    "offline": "Desconectado",
+    "notFound": "Repositorio no encontrado",
+    "rateLimit": "Límite alcanzado — usa un token",
+    "account": "CUENTA",
+    "auth": "AUTENTICACIÓN",
+    "user": "Usuario",
+    "prs": "Pull Requests",
+    "downloads": "Descargas",
+    "published": "Publicado",
+    "noRelease": "Sin versión",
+    "commitsWeek": "Commits / 7d",
+    "by": "por",
+    "noCommits": "Sin commits",
+    "success": "Éxito",
+    "failed": "Falló",
+    "running": "En ejecución",
+    "pending": "Pendiente",
+    "noRuns": "Sin ejecuciones",
+    "run": "Ejecución",
+    "followers": "Seguidores",
+    "repos": "Repositorios",
+    "gists": "Notas",
+    "following": "Siguiendo",
+    "remaining": "Restante",
+    "resets": "Reinicia",
+    "version": "Versión",
+    "author": "Autor",
+    "status": "Estado",
+    "genToken": "Generar token →"
+  }
+}

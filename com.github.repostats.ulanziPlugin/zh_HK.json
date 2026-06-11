@@ -1,0 +1,91 @@
+{
+  "Name": "GitHub 統計",
+  "Description": "按鍵上的即時星號、分叉和問題。",
+  "Actions": [
+    {
+      "Name": "儲存庫統計",
+      "Tooltip": "星號、分叉、問題和關注者"
+    },
+    {
+      "Name": "最新發佈",
+      "Tooltip": "最新發佈版本和下載"
+    },
+    {
+      "Name": "提交活動",
+      "Tooltip": "最近的提交"
+    },
+    {
+      "Name": "CI / 動作",
+      "Tooltip": "最新工作流程狀態"
+    },
+    {
+      "Name": "問題與拉取請求",
+      "Tooltip": "開啟的問題和拉取請求"
+    },
+    {
+      "Name": "使用者 / 組織",
+      "Tooltip": "個人資料：追蹤者、儲存庫"
+    },
+    {
+      "Name": "API 限制",
+      "Tooltip": "您的 GitHub API 配額"
+    }
+  ],
+  "Localization": {
+    "repository": "儲存庫",
+    "repo": "儲存庫",
+    "metric": "指標",
+    "stars": "星號",
+    "forks": "分叉",
+    "issues": "問題",
+    "watchers": "關注者",
+    "token": "存取權杖",
+    "tokenHint": "選填 — 權杖可增加請求限制並允許存取私人儲存庫。",
+    "refresh": "更新",
+    "interval": "每",
+    "minutes": "分鐘",
+    "refreshNow": "立即更新",
+    "tipPressKey": "按下按鍵切換指標。",
+    "screen": "畫面",
+    "scrClassic": "經典",
+    "scrChart": "圖表",
+    "scrMinimal": "極簡",
+    "theme": "主題",
+    "font": "字體",
+    "animated": "動畫",
+    "animatedHint": "移動的柔和光暈",
+    "tutorial": "教學",
+    "loading": "載入中…",
+    "updated": "已更新",
+    "pushed": "已推送",
+    "offline": "離線",
+    "notFound": "找不到儲存庫",
+    "rateLimit": "達到限制 — 請使用權杖",
+    "account": "帳號",
+    "auth": "身份驗證",
+    "user": "使用者",
+    "prs": "拉取請求",
+    "downloads": "下載",
+    "published": "已發佈",
+    "noRelease": "無發佈",
+    "commitsWeek": "提交 / 7天",
+    "by": "來自",
+    "noCommits": "無提交",
+    "success": "成功",
+    "failed": "失敗",
+    "running": "執行中",
+    "pending": "待處理",
+    "noRuns": "無執行紀錄",
+    "run": "執行",
+    "followers": "追蹤者",
+    "repos": "儲存庫",
+    "gists": "筆記",
+    "following": "追蹤中",
+    "remaining": "剩餘",
+    "resets": "重設",
+    "version": "版本",
+    "author": "作者",
+    "status": "狀態",
+    "genToken": "產生權杖 →"
+  }
+}
