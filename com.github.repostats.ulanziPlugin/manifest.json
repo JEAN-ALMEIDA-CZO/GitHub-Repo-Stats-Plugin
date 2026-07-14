@@ -5,7 +5,7 @@
   "Category": "GitHub Repo Stats",
   "CategoryIcon": "assets/icons/categoryIcon.svg",
   "Icon": "assets/icons/brand.svg",
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "UUID": "com.github.repostats.deck",
   "Type": "JavaScript",
   "CodePath": "plugin/app.js",
