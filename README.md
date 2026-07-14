@@ -1,3 +1,5 @@
+[![Available on Ulanzi Community Store](https://raw.githubusercontent.com/narlei/ulanzicommunitystore/main/docs/badges/ulanzi-community-store.svg)](https://ulanzicommunitystore.narlei.com)
+
 <div align="center">
 <p align="center">
   <img src="com.github.repostats.ulanziPlugin/assets/marketing/Banner.jpeg" alt="GitHub RepoStats Deck Plugin" width="100%">
