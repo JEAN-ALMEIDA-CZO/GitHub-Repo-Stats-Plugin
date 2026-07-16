@@ -40,7 +40,7 @@ $UD.onConnected(() => {
 
   const deb = Utils.debounce(() => { collectAndSend(); renderPreview(); }, 250);
   form.addEventListener('input', deb);
-  ['repo', 'user', 'token', 'metric', 'intervalMin', 'font', 'anim'].forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('change', () => { collectAndSend(); renderPreview(); }); });
+  ['repo', 'user', 'token', 'metric', 'intervalMin', 'font'].forEach(id => { const el = document.getElementById(id); if (el) el.addEventListener('change', () => { collectAndSend(); renderPreview(); }); });
 
   startPreview(); loadTranslations();
 });
@@ -137,8 +137,9 @@ const DEMO = (() => { const iso = h => new Date(Date.now() - h * 3600000).toISOS
   rate: { remaining: 42, limit: 60, reset: Math.floor(Date.now() / 1000) + 1320 }
 }; })();
 
-const pv = { frame: 0 }; let pvTimer = null;
-function startPreview() { if (pvTimer) clearInterval(pvTimer); pvTimer = setInterval(() => { pv.frame++; renderPreview(); }, 120); renderPreview(); }
+// live preview removed (caused flicker + extra CPU while editing the key)
+const pv = { frame: 0 };
+function startPreview() {}
 
 function renderPreview() {
   const el = document.getElementById('preview'); if (!el) return;
@@ -181,7 +182,6 @@ function collectAndSend() {
   if (!form) return;
   const v = Utils.getFormValue(form);
   ACTION_SETTING = { ...ACTION_SETTING, ...v };
-  ACTION_SETTING.anim = !!document.getElementById('anim').checked;
   $UD.sendParamFromPlugin({ ...ACTION_SETTING, ...KEY_LABELS });
 }
 
@@ -194,7 +194,6 @@ function applySettings(p) {
   document.getElementById('theme').value = ACTION_SETTING.theme || 'github';
   document.getElementById('font').value = ACTION_SETTING.font || 'sans';
   document.getElementById('screenMode').value = ACTION_SETTING.screenMode != null ? ACTION_SETTING.screenMode : 0;
-  document.getElementById('anim').checked = (ACTION_SETTING.anim === true || ACTION_SETTING.anim === 'true' || ACTION_SETTING.anim === 'on');
   highlightTheme(document.getElementById('theme').value); highlightSeg(document.getElementById('screenMode').value);
   renderPreview();
 }

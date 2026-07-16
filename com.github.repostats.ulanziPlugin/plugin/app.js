@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 import opentype from 'opentype.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const PLUGIN_VERSION = '1.0.0';
+const PLUGIN_VERSION = '1.0.1';
 const DEBUG = process.env.REPOSTATS_DEBUG === '1';
 function log(...a) { if (DEBUG) console.log('[RepoStats]', ...a); }
 
@@ -61,7 +61,23 @@ function glyphGeom(fontKey, text, size) {
   _glyphCache.set(k, g);
   return g;
 }
+// true only when the vector font can draw EVERY char. CJK/Arabic/etc. aren't in
+// the bundled Latin fonts, so those must fall back to a system <text> font — else
+// opentype renders .notdef "tofu" boxes (e.g. Chinese CI status words).
+const _hasGlyphCache = new Map();
+function fontHasAll(fontKey, str) {
+  const k = fontKey + '|' + str;
+  if (_hasGlyphCache.has(k)) return _hasGlyphCache.get(k);
+  const font = loadFont(fontKey);
+  let ok = true;
+  if (font) { for (const ch of String(str)) { if (ch === ' ') continue; if (font.charToGlyphIndex(ch) === 0) { ok = false; break; } } }
+  if (_hasGlyphCache.size > 400) _hasGlyphCache.clear();
+  _hasGlyphCache.set(k, ok);
+  return ok;
+}
 function glyph(fontKey, text, cx, cy, size, fill, anchor = 'middle') {
+  // non-Latin (Chinese, …): render with a system font so it isn't a tofu box
+  if (!fontHasAll(fontKey, text)) return `<text x="${cx}" y="${cy}" text-anchor="${anchor}" dominant-baseline="middle" fill="${fill}" font-size="${size}" font-weight="bold" font-family="Arial, Helvetica, sans-serif">${esc(text)}</text>`;
   const g = glyphGeom(fontKey, text, size);
   if (!g) return `<text x="${cx}" y="${cy}" text-anchor="${anchor}" dominant-baseline="middle" fill="${fill}" font-size="${size}" font-weight="bold" font-family="Arial, Helvetica, sans-serif">${esc(text)}</text>`;
   const bb = g.bb; const w = bb.x2 - bb.x1, h = bb.y2 - bb.y1;
@@ -240,15 +256,9 @@ function wrap(t, defs, body) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">${defs ? `<defs>${defs}</defs>` : ''}<rect width="256" height="256" fill="${t.bg}"/>${body}</svg>`;
   return 'data:image/svg+xml;base64,' + Buffer.from(svg).toString('base64');
 }
-// Compose final data-URI: optional animated sweep + static body + (marquee) title.
-function compose(t, body, titleSvg, anim, af) {
-  let defs = '', pre = '';
-  if (anim) {
-    const gx = (128 + Math.sin(af * 0.05) * 90).toFixed(1);
-    defs = `<radialGradient id="sweep" cx="0.5" cy="0.5" r="0.5" gradientUnits="userSpaceOnUse" gradientTransform="translate(${gx} 70)"><stop offset="0" stop-color="${t.accent}" stop-opacity="0.16"/><stop offset="1" stop-color="${t.accent}" stop-opacity="0"/></radialGradient>`;
-    pre = `<circle cx="${gx}" cy="70" r="150" fill="url(#sweep)"/>`;
-  }
-  return wrap(t, defs, pre + body + (titleSvg || ''));
+// Compose final data-URI: static body + (marquee) title.
+function compose(t, body, titleSvg) {
+  return wrap(t, '', body + (titleSvg || ''));
 }
 
 // ── HTTPS GET ───────────────────────────────────────────────────────────────────
@@ -262,17 +272,49 @@ function httpGet(url, token, timeoutMs = 9000) {
   });
 }
 
+// ── shared star-sample store ──────────────────────────────────────────────────────
+// One in-memory copy + one debounced writer for ALL keys (was N reads + N clobbering
+// writes of the same file).
+let _samples = null, _samplesSaveT = null;
+function samplesStore() {
+  if (!_samples) { try { _samples = JSON.parse(fs.readFileSync(SAMPLE_FILE, 'utf8')) || {}; } catch (e) { _samples = {}; } }
+  return _samples;
+}
+function saveSamplesStore() {
+  if (_samplesSaveT) clearTimeout(_samplesSaveT);
+  _samplesSaveT = setTimeout(() => { try { fs.writeFileSync(SAMPLE_FILE, JSON.stringify(_samples || {})); } catch (e) {} }, 5000);
+}
+
+// ── single shared marquee ticker ────────────────────────────────────────────────
+// One timer drives every key whose title overflows, regardless of key count. Empty
+// set => no timer at all (zero idle CPU). Fewer fps as more keys scroll at once.
+const _animSet = new Set();
+let _animTimer = null;
+let _addSeq = 0; // staggers each new key's first fetch
+function _animInterval() { const n = _animSet.size; return n <= 2 ? 120 : n <= 4 ? 200 : 300; }
+function _animRestart() {
+  if (_animTimer) { clearInterval(_animTimer); _animTimer = null; }
+  if (_animSet.size) _animTimer = setInterval(() => { for (const it of _animSet) { it.animFrame++; it._paint(); } }, _animInterval());
+}
+function animJoin(inst) { _animSet.add(inst); _animRestart(); }
+function animLeave(inst) { _animSet.delete(inst); _animRestart(); }
+
 // ── Monitor (one per key; type set from the action uuid) ──────────────────────────
 class Monitor {
   constructor(context, $UD, type) {
     this.$UD = $UD; this.context = context; this.type = type;
-    this.config = { repo: 'microsoft/vscode', user: 'torvalds', token: '', metric: 'stars', intervalMin: 30, theme: 'github', font: 'sans', screenMode: 0, anim: false, labels: {} };
+    this.config = { repo: 'microsoft/vscode', user: 'torvalds', token: '', metric: 'stars', intervalMin: 30, theme: 'github', font: 'sans', screenMode: 0, labels: {} };
     this.data = null; this.error = null; this.loading = false; this.updated = '';
     this.prevStars = null; this.deltaStars = null; this.samples = [];
     this.viewIndex = 0; this._marquee = false;
-    this.animFrame = 0; this.animTimer = null; this.refreshTimer = null;
-    this._all = this._load();
-    this.render(); this.refresh();
+    this.animFrame = 0; this.refreshTimer = null;
+    this._all = samplesStore(); // shared store (one copy for all keys)
+    // paint the loading state once, then clear the flag so refresh() isn't blocked
+    // by its own `if (this.loading) return` guard.
+    this.loading = true; this.render(); this.loading = false;
+    // stagger the first fetch so adding several keys at once doesn't burst
+    const slot = Math.min(_addSeq++, 12);
+    this.refreshTimer = setTimeout(() => this.refresh(), slot * 180);
   }
   // press cycles to the next sub-metric (centered view); no fetch
   cycle() { this.viewIndex++; this.render(); }
@@ -291,14 +333,17 @@ class Monitor {
     if (p.theme) this.config.theme = p.theme;
     if (p.font) this.config.font = p.font;
     if (p.screenMode !== undefined) this.config.screenMode = parseInt(p.screenMode, 10) || 0;
-    if (p.anim !== undefined) this.config.anim = (p.anim === true || p.anim === 'true' || p.anim === 'on');
     for (const k in p) if (typeof p[k] === 'string' && !['repo', 'user', 'token', 'metric', 'theme', 'font'].includes(k)) this.config.labels[k] = p[k];
     this._ensureTimer();
     if (before !== this._target()) {
       this.data = null; this.error = null; this.prevStars = null; this.deltaStars = null;
       this.samples = (this._all[(this.config.repo || '').toLowerCase()] || []).slice(-40);
       this.refresh();
-    } else { this._schedule(); this.render(); }
+    } else if (this.data == null && !this.loading) {
+      this.refresh(); // first load (e.g. onAdd with same target) — fetch now
+    } else {
+      this._schedule(); this.render();
+    }
   }
   _norm(v) { let s = String(v || '').trim().replace(/^https?:\/\/github\.com\//i, '').replace(/\.git$/i, '').replace(/^\/+|\/+$/g, ''); const p = s.split('/').filter(Boolean); return p.length >= 2 ? p[0] + '/' + p[1] : s; }
 
@@ -364,21 +409,13 @@ class Monitor {
     const key = (this.config.repo || '').toLowerCase();
     const arr = this._all[key] || [];
     if (arr[arr.length - 1] !== stars) { arr.push(stars); while (arr.length > 60) arr.shift(); }
-    this._all[key] = arr; this.samples = arr.slice(-40); this._save();
+    this._all[key] = arr; this.samples = arr.slice(-40); saveSamplesStore();
   }
 
   _schedule() { if (this.refreshTimer) clearTimeout(this.refreshTimer); this.refreshTimer = setTimeout(() => this.refresh(), Math.max(1, this.config.intervalMin) * 60000); }
-  // Run the paint loop only when something actually moves: the optional sweep, or a
-  // marquee title that overflows. A static key with a short title runs no loop.
-  _ensureTimer() {
-    const need = this.config.anim || this._marquee;
-    if (!need) { if (this.animTimer) { clearInterval(this.animTimer); this.animTimer = null; } return; }
-    if (this.animTimer) return;
-    const ms = this._marquee ? 120 : 220;
-    this.animTimer = setInterval(() => { this.animFrame++; this._paint(); }, ms);
-  }
-  _load() { try { return JSON.parse(fs.readFileSync(SAMPLE_FILE, 'utf8')) || {}; } catch (e) { return {}; } }
-  _save() { if (this._t) clearTimeout(this._t); this._t = setTimeout(() => { try { fs.writeFileSync(SAMPLE_FILE, JSON.stringify(this._all)); } catch (e) {} }, 4000); }
+  // Join/leave the single shared ticker — only a marquee title (overflow) needs
+  // motion. A static short-title key runs no loop at all.
+  _ensureTimer() { if (this._marquee) animJoin(this); else animLeave(this); }
 
   // Rebuild the static body (heavy: glyph/layout) — only on data/config/state change.
   render() {
@@ -400,12 +437,12 @@ class Monitor {
   _paint() {
     if (!this._th) return;
     const titleSvg = buildTitle({ title: this._title(), theme: this.config.theme }, this.animFrame);
-    const uri = compose(this._th, this._body || '', titleSvg, this.config.anim, this.animFrame);
+    const uri = compose(this._th, this._body || '', titleSvg);
     if (uri === this._lastUri) return;
     this._lastUri = uri;
     try { this.$UD.setBaseDataIcon(this.context, uri); } catch (e) {}
   }
-  destroy() { if (this.animTimer) clearInterval(this.animTimer); if (this.refreshTimer) clearTimeout(this.refreshTimer); if (this._t) clearTimeout(this._t); }
+  destroy() { animLeave(this); if (this.refreshTimer) clearTimeout(this.refreshTimer); }
 }
 
 function typeOf(uuid) { const s = String(uuid || '').split('.').pop(); return ['repo', 'release', 'commits', 'ci', 'issues', 'user', 'rate'].includes(s) ? s : 'repo'; }
