@@ -10,7 +10,7 @@
 
 Stars, releases, commits, CI status, issues & PRs, profiles and your API quota — each on its own key. Press the key to cycle through the metrics.
 
-![version](https://img.shields.io/badge/version-1.0.0-58a6ff)
+![version](https://img.shields.io/badge/version-1.0.1-58a6ff)
 ![platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-0d1117)
 ![langs](https://img.shields.io/badge/i18n-11%20languages-3fb950)
 ![license](https://img.shields.io/badge/license-MIT-a78bfa)
